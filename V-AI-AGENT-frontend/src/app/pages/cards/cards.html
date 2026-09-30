@@ -1,0 +1,297 @@
+<div class="cards-page">
+
+  <!-- HEADER -->
+  <div class="page-header">
+
+    <div>
+      <div class="breadcrumb">
+        <span>Home</span>
+        <i class="bi bi-chevron-right"></i>
+        <span>Cards</span>
+      </div>
+
+      <h1>My Cards</h1>
+
+      <p>
+        Manage your cards, spending limits and security controls.
+      </p>
+    </div>
+
+    <button class="notification-btn">
+      <i class="bi bi-bell"></i>
+      <span></span>
+    </button>
+
+  </div>
+
+
+  <!-- MAIN GRID -->
+  <div class="cards-grid">
+
+    <!-- LEFT -->
+    <div class="main-column">
+
+      <!-- CARD HERO -->
+      <div class="card-section">
+
+        <div class="section-header">
+          <div>
+            <span class="eyebrow">PRIMARY CARD</span>
+            <h2>Debit Card</h2>
+          </div>
+
+          <div class="active-badge">
+            <span></span>
+            Active
+          </div>
+        </div>
+
+
+        <!-- BANK CARD -->
+        <div class="bank-card">
+
+          <div class="card-top">
+
+            <div class="chip">
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+
+            <div class="contactless">
+              <i class="bi bi-wifi"></i>
+            </div>
+
+          </div>
+
+
+          <div class="card-number">
+            {{ card.number }}
+          </div>
+
+
+          <div class="card-bottom">
+
+            <div>
+              <span>CARD HOLDER</span>
+              <strong>{{ card.holder }}</strong>
+            </div>
+
+            <div>
+              <span>EXPIRES</span>
+              <strong>{{ card.expiry }}</strong>
+            </div>
+
+            <div class="visa">
+              {{ card.network }}
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- CARD INFO -->
+        <div class="card-info-row">
+
+          <div>
+            <span>Card Type</span>
+            <strong>Physical Debit</strong>
+          </div>
+
+          <div>
+            <span>Linked Account</span>
+            <strong>•••• 6789</strong>
+          </div>
+
+          <div>
+            <span>Status</span>
+            <strong class="green-text">Active</strong>
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- CARD ACTIONS -->
+      <div class="actions-section">
+
+        <div class="section-title">
+          <div>
+            <span class="eyebrow">CARD MANAGEMENT</span>
+            <h2>Quick Actions</h2>
+          </div>
+        </div>
+
+
+        <div class="actions-grid">
+
+          @for (action of cardActions; track action.title) {
+
+            <button class="action-card">
+
+              <div class="action-icon">
+                <i class="bi {{ action.icon }}"></i>
+              </div>
+
+              <div class="action-content">
+                <strong>{{ action.title }}</strong>
+                <span>{{ action.subtitle }}</span>
+              </div>
+
+              <i class="bi bi-chevron-right arrow"></i>
+
+            </button>
+
+          }
+
+        </div>
+
+      </div>
+
+
+      <!-- RECENT ACTIVITY -->
+      <div class="activity-section">
+
+        <div class="section-title">
+
+          <div>
+            <span class="eyebrow">CARD ACTIVITY</span>
+            <h2>Recent Transactions</h2>
+          </div>
+
+          <button class="view-all">
+            View all
+            <i class="bi bi-arrow-up-right"></i>
+          </button>
+
+        </div>
+
+
+        <div class="activity-list">
+
+          @for (activity of activities; track activity.title) {
+
+            <div class="activity-row">
+
+              <div class="activity-icon">
+                <i class="bi {{ activity.icon }}"></i>
+              </div>
+
+              <div class="activity-info">
+                <strong>{{ activity.title }}</strong>
+                <span>
+                  {{ activity.merchant }} · {{ activity.date }}
+                </span>
+              </div>
+
+              <div class="activity-amount">
+                {{ activity.amount }}
+              </div>
+
+              <i class="bi bi-three-dots-vertical more"></i>
+
+            </div>
+
+          }
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- RIGHT SIDEBAR -->
+    <div class="side-column">
+
+      <!-- SPENDING LIMIT -->
+      <div class="limit-card">
+
+        <div class="limit-header">
+
+          <div>
+            <span class="eyebrow">SPENDING LIMIT</span>
+            <h3>Monthly Usage</h3>
+          </div>
+
+          <div class="limit-icon">
+            <i class="bi bi-speedometer2"></i>
+          </div>
+
+        </div>
+
+
+        <div class="limit-value">
+          <strong>₹18,750</strong>
+          <span>of ₹1,00,000</span>
+        </div>
+
+
+        <div class="progress-track">
+          <div class="progress-fill"></div>
+        </div>
+
+
+        <div class="limit-footer">
+          <span>18.75% used</span>
+          <strong>₹81,250 left</strong>
+        </div>
+
+      </div>
+
+
+      <!-- SECURITY -->
+      <div class="security-card">
+
+        <div class="security-icon">
+          <i class="bi bi-shield-check"></i>
+        </div>
+
+        <div>
+          <span class="eyebrow">SECURITY</span>
+          <h3>Your card is protected</h3>
+          <p>
+            Online transactions and suspicious activity are monitored
+            automatically.
+          </p>
+        </div>
+
+        <div class="security-status">
+          <span></span>
+          Secure
+        </div>
+
+      </div>
+
+
+      <!-- AI ASSISTANT -->
+      <div class="ai-card">
+
+        <div class="ai-glow"></div>
+
+        <div class="ai-icon">
+          <i class="bi bi-stars"></i>
+        </div>
+
+        <span class="ai-label">AI BANKING ASSISTANT</span>
+
+        <h3>Need help with your card?</h3>
+
+        <p>
+          Ask me about card limits, transactions, security or payments.
+        </p>
+
+        <button class="ai-button">
+          Ask AI Assistant
+          <i class="bi bi-arrow-up-right"></i>
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

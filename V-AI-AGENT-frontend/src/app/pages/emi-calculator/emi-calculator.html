@@ -1,0 +1,391 @@
+<div class="emi-page">
+
+  <!-- Header -->
+  <div class="page-header">
+
+    <div>
+      <div class="breadcrumb">
+        <span>Loans</span>
+        <i class="bi bi-chevron-right"></i>
+        <strong>EMI Calculator</strong>
+      </div>
+
+      <h1>EMI Calculator</h1>
+
+      <p>
+        Calculate your monthly EMI and plan your loan repayment.
+      </p>
+    </div>
+
+    <div class="header-actions">
+
+      <button class="icon-btn">
+        <i class="bi bi-bell"></i>
+      </button>
+
+      <button class="profile-btn">
+        <span>NB</span>
+        <i class="bi bi-chevron-down"></i>
+      </button>
+
+    </div>
+
+  </div>
+
+  <!-- Main Calculator -->
+  <div class="calculator-grid">
+
+    <!-- Input Card -->
+    <section class="calculator-card">
+
+      <div class="card-heading">
+
+        <div>
+          <h2>Loan Calculator</h2>
+          <p>Enter your loan details below.</p>
+        </div>
+
+        <div class="calculator-icon">
+          <i class="bi bi-calculator"></i>
+        </div>
+
+      </div>
+
+      <!-- Loan Amount -->
+      <div class="input-section">
+
+        <div class="input-heading">
+
+          <label>Loan Amount</label>
+
+          <strong>
+            ₹{{ loanAmount | number:'1.0-0' }}
+          </strong>
+
+        </div>
+
+        <input
+          type="range"
+          min="50000"
+          max="2000000"
+          step="10000"
+          [(ngModel)]="loanAmount"
+          class="range amount-range">
+
+        <div class="range-labels">
+          <span>₹50K</span>
+          <span>₹20L</span>
+        </div>
+
+        <div class="number-input">
+          <span>₹</span>
+
+          <input
+            type="number"
+            [(ngModel)]="loanAmount">
+        </div>
+
+      </div>
+
+      <!-- Interest -->
+      <div class="input-section">
+
+        <div class="input-heading">
+
+          <label>Interest Rate</label>
+
+          <strong>
+            {{ interestRate }}%
+          </strong>
+
+        </div>
+
+        <input
+          type="range"
+          min="5"
+          max="20"
+          step="0.1"
+          [(ngModel)]="interestRate"
+          class="range interest-range">
+
+        <div class="range-labels">
+          <span>5%</span>
+          <span>20%</span>
+        </div>
+
+        <div class="number-input">
+
+          <input
+            type="number"
+            min="0"
+            step="0.1"
+            [(ngModel)]="interestRate">
+
+          <span>%</span>
+
+        </div>
+
+      </div>
+
+      <!-- Tenure -->
+      <div class="input-section">
+
+        <div class="input-heading">
+
+          <label>Loan Tenure</label>
+
+          <strong>
+            {{ tenure }} Months
+          </strong>
+
+        </div>
+
+        <input
+          type="range"
+          min="6"
+          max="120"
+          step="6"
+          [(ngModel)]="tenure"
+          class="range tenure-range">
+
+        <div class="range-labels">
+          <span>6 Months</span>
+          <span>120 Months</span>
+        </div>
+
+        <div class="number-input">
+
+          <input
+            type="number"
+            min="1"
+            [(ngModel)]="tenure">
+
+          <span>Months</span>
+
+        </div>
+
+      </div>
+
+      <div class="calculator-actions">
+
+        <button class="reset-btn" (click)="reset()">
+          <i class="bi bi-arrow-counterclockwise"></i>
+          Reset
+        </button>
+
+        <button class="calculate-btn" (click)="calculate()">
+          Calculate EMI
+          <i class="bi bi-arrow-right"></i>
+        </button>
+
+      </div>
+
+    </section>
+
+    <!-- Result -->
+    <section class="result-card">
+
+      <div class="result-top">
+
+        <div>
+          <span>YOUR MONTHLY EMI</span>
+
+          <h2>
+            ₹{{ monthlyEMI | number:'1.0-0' }}
+          </h2>
+
+          <p>
+            Estimated monthly repayment
+          </p>
+        </div>
+
+        <div class="result-icon">
+          <i class="bi bi-wallet2"></i>
+        </div>
+
+      </div>
+
+      <!-- Breakdown -->
+      <div class="breakdown">
+
+        <div class="breakdown-title">
+          <span>Payment Breakdown</span>
+          <strong>Total ₹{{ totalPayment | number:'1.0-0' }}</strong>
+        </div>
+
+        <div class="payment-bar">
+
+          <div
+            class="principal-bar"
+            [style.width.%]="principalPercentage">
+          </div>
+
+          <div
+            class="interest-bar"
+            [style.width.%]="interestPercentage">
+          </div>
+
+        </div>
+
+        <div class="legend">
+
+          <div>
+            <span class="legend-dot principal"></span>
+            <span>Principal</span>
+            <strong>
+              ₹{{ loanAmount | number:'1.0-0' }}
+            </strong>
+          </div>
+
+          <div>
+            <span class="legend-dot interest"></span>
+            <span>Interest</span>
+            <strong>
+              ₹{{ totalInterest | number:'1.0-0' }}
+            </strong>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Result Details -->
+      <div class="result-details">
+
+        <div>
+          <span>Loan Amount</span>
+          <strong>
+            ₹{{ loanAmount | number:'1.0-0' }}
+          </strong>
+        </div>
+
+        <div>
+          <span>Interest Rate</span>
+          <strong>{{ interestRate }}%</strong>
+        </div>
+
+        <div>
+          <span>Tenure</span>
+          <strong>{{ tenure }} Months</strong>
+        </div>
+
+        <div>
+          <span>Total Interest</span>
+          <strong>
+            ₹{{ totalInterest | number:'1.0-0' }}
+          </strong>
+        </div>
+
+      </div>
+
+      <div class="result-note">
+        <i class="bi bi-info-circle"></i>
+
+        <span>
+          This calculator provides an estimated EMI.
+          Actual repayment may vary based on your bank's terms.
+        </span>
+      </div>
+
+    </section>
+
+  </div>
+
+  <!-- Quick Presets -->
+  <section class="presets-card">
+
+    <div class="section-heading">
+
+      <div>
+        <h3>Popular Loan Presets</h3>
+        <p>Quickly explore common loan scenarios.</p>
+      </div>
+
+    </div>
+
+    <div class="preset-grid">
+
+      <button
+        class="preset"
+        (click)="loanAmount = 500000; interestRate = 9; tenure = 60">
+
+        <div class="preset-icon">
+          <i class="bi bi-person"></i>
+        </div>
+
+        <div>
+          <strong>Personal Loan</strong>
+          <span>₹5L · 9% · 5 Years</span>
+        </div>
+
+        <i class="bi bi-arrow-up-right"></i>
+
+      </button>
+
+      <button
+        class="preset"
+        (click)="loanAmount = 2500000; interestRate = 8.5; tenure = 240">
+
+        <div class="preset-icon">
+          <i class="bi bi-house"></i>
+        </div>
+
+        <div>
+          <strong>Home Loan</strong>
+          <span>₹25L · 8.5% · 20 Years</span>
+        </div>
+
+        <i class="bi bi-arrow-up-right"></i>
+
+      </button>
+
+      <button
+        class="preset"
+        (click)="loanAmount = 1000000; interestRate = 8.25; tenure = 84">
+
+        <div class="preset-icon">
+          <i class="bi bi-mortarboard"></i>
+        </div>
+
+        <div>
+          <strong>Education Loan</strong>
+          <span>₹10L · 8.25% · 7 Years</span>
+        </div>
+
+        <i class="bi bi-arrow-up-right"></i>
+
+      </button>
+
+    </div>
+
+  </section>
+
+  <!-- AI Banner -->
+  <section class="ai-banner">
+
+    <div class="ai-icon">
+      <i class="bi bi-stars"></i>
+    </div>
+
+    <div class="ai-content">
+
+      <span>AI Banking Assistant</span>
+
+      <h3>
+        Need help choosing a loan?
+      </h3>
+
+      <p>
+        Ask AI about EMI, interest rates, loan tenure or repayment planning.
+      </p>
+
+    </div>
+
+    <button class="ai-btn">
+      Ask AI Assistant
+      <i class="bi bi-arrow-up-right"></i>
+    </button>
+
+  </section>
+
+</div>

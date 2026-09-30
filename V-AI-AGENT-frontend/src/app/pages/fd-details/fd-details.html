@@ -1,0 +1,367 @@
+<div class="fd-details-page">
+
+  <!-- Header -->
+  <div class="page-header">
+
+    <div>
+      <div class="breadcrumb">
+        <span>Fixed Deposit</span>
+        <i class="bi bi-chevron-right"></i>
+        <strong>FD Details</strong>
+      </div>
+
+      <h1>FD Details</h1>
+      <p>View complete information about your fixed deposit.</p>
+    </div>
+
+    <div class="header-actions">
+      <button class="icon-btn">
+        <i class="bi bi-bell"></i>
+      </button>
+
+      <button class="profile-btn">
+        <span>NB</span>
+        <i class="bi bi-chevron-down"></i>
+      </button>
+    </div>
+
+  </div>
+
+  <!-- Hero -->
+  <section class="fd-hero">
+
+    <div class="hero-main">
+
+      <div class="fd-label">
+        <i class="bi bi-shield-check"></i>
+        {{ fd.type }}
+      </div>
+
+      <h2>{{ fd.maturityAmount }}</h2>
+
+      <p>Estimated Maturity Value</p>
+
+      <div class="hero-number">
+        <span>Deposit Number</span>
+        <strong>{{ fd.number }}</strong>
+      </div>
+
+    </div>
+
+    <div class="hero-side">
+
+      <div class="status-badge">
+        <span></span>
+        {{ fd.status }}
+      </div>
+
+      <div class="rate-box">
+        <strong>{{ fd.interestRate }}</strong>
+        <span>Annual Interest</span>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- Stats -->
+  <section class="stats-grid">
+
+    <div class="stat-card">
+      <div class="stat-icon blue">
+        <i class="bi bi-wallet2"></i>
+      </div>
+
+      <span>Principal</span>
+      <strong>{{ fd.principal }}</strong>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon green">
+        <i class="bi bi-graph-up-arrow"></i>
+      </div>
+
+      <span>Interest Earned</span>
+      <strong>{{ fd.interestEarned }}</strong>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon purple">
+        <i class="bi bi-clock"></i>
+      </div>
+
+      <span>Tenure</span>
+      <strong>{{ fd.tenure }}</strong>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon orange">
+        <i class="bi bi-calendar-check"></i>
+      </div>
+
+      <span>Maturity Date</span>
+      <strong>{{ fd.maturityDate }}</strong>
+    </div>
+
+  </section>
+
+  <!-- Main -->
+  <div class="content-grid">
+
+    <!-- Left -->
+    <div class="main-content">
+
+      <!-- Deposit Breakdown -->
+      <section class="content-card">
+
+        <div class="section-heading">
+          <div>
+            <h3>Deposit Breakdown</h3>
+            <p>Principal and interest contribution.</p>
+          </div>
+        </div>
+
+        <div class="breakdown-wrapper">
+
+          <div class="donut">
+            <div class="donut-inner">
+              <strong>₹1.14L</strong>
+              <span>Total Value</span>
+            </div>
+          </div>
+
+          <div class="breakdown-list">
+
+            @for (item of breakdown; track item.label) {
+
+              <div class="breakdown-item">
+
+                <div class="breakdown-top">
+                  <div>
+                    <span class="dot"></span>
+                    <strong>{{ item.label }}</strong>
+                  </div>
+
+                  <strong>{{ item.value }}</strong>
+                </div>
+
+                <div class="breakdown-track">
+                  <div
+                    class="breakdown-fill"
+                    [style.width.%]="item.percentage">
+                  </div>
+                </div>
+
+                <span class="percentage">
+                  {{ item.percentage }}% of maturity value
+                </span>
+
+              </div>
+
+            }
+
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- Deposit Information -->
+      <section class="content-card">
+
+        <div class="section-heading">
+          <div>
+            <h3>Deposit Information</h3>
+            <p>Terms and conditions of your FD.</p>
+          </div>
+        </div>
+
+        <div class="info-grid">
+
+          <div class="info-item">
+            <span>Deposit Type</span>
+            <strong>Regular Fixed Deposit</strong>
+          </div>
+
+          <div class="info-item">
+            <span>Interest Rate</span>
+            <strong>{{ fd.interestRate }}</strong>
+          </div>
+
+          <div class="info-item">
+            <span>Interest Payout</span>
+            <strong>{{ fd.payout }}</strong>
+          </div>
+
+          <div class="info-item">
+            <span>Compounding</span>
+            <strong>{{ fd.compounding }}</strong>
+          </div>
+
+          <div class="info-item">
+            <span>Start Date</span>
+            <strong>{{ fd.startDate }}</strong>
+          </div>
+
+          <div class="info-item">
+            <span>Maturity Date</span>
+            <strong>{{ fd.maturityDate }}</strong>
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- Timeline -->
+      <section class="content-card">
+
+        <div class="section-heading">
+          <div>
+            <h3>FD Timeline</h3>
+            <p>Track important stages of your deposit.</p>
+          </div>
+        </div>
+
+        <div class="timeline">
+
+          @for (item of timeline; track item.title) {
+
+            <div class="timeline-item {{ item.status }}">
+
+              <div class="timeline-icon">
+                <i class="bi {{ item.icon }}"></i>
+              </div>
+
+              <div class="timeline-content">
+                <div>
+                  <strong>{{ item.title }}</strong>
+                  <span>{{ item.date }}</span>
+                </div>
+
+                <p>{{ item.description }}</p>
+              </div>
+
+            </div>
+
+          }
+
+        </div>
+
+      </section>
+
+    </div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+
+      <!-- Maturity Card -->
+      <section class="maturity-card">
+
+        <div class="maturity-icon">
+          <i class="bi bi-calendar2-check"></i>
+        </div>
+
+        <span>Maturity Amount</span>
+
+        <h2>{{ fd.maturityAmount }}</h2>
+
+        <div class="maturity-date">
+          <i class="bi bi-calendar-event"></i>
+          {{ fd.maturityDate }}
+        </div>
+
+        <button class="primary-btn">
+          Manage FD
+          <i class="bi bi-arrow-up-right"></i>
+        </button>
+
+      </section>
+
+      <!-- Interest Summary -->
+      <section class="side-card">
+
+        <h3>Interest Summary</h3>
+
+        <div class="summary-row">
+          <span>Principal</span>
+          <strong>{{ fd.principal }}</strong>
+        </div>
+
+        <div class="summary-row">
+          <span>Interest Rate</span>
+          <strong>{{ fd.interestRate }}</strong>
+        </div>
+
+        <div class="summary-row">
+          <span>Interest Earned</span>
+          <strong>{{ fd.interestEarned }}</strong>
+        </div>
+
+        <div class="summary-row total">
+          <span>Maturity Value</span>
+          <strong>{{ fd.maturityAmount }}</strong>
+        </div>
+
+      </section>
+
+      <!-- Actions -->
+      <section class="side-card">
+
+        <h3>Quick Actions</h3>
+
+        <div class="action-list">
+
+          @for (action of actions; track action.title) {
+
+            <button class="action-item">
+
+              <div class="action-icon">
+                <i class="bi {{ action.icon }}"></i>
+              </div>
+
+              <div>
+                <strong>{{ action.title }}</strong>
+                <span>{{ action.subtitle }}</span>
+              </div>
+
+              <i class="bi bi-chevron-right arrow"></i>
+
+            </button>
+
+          }
+
+        </div>
+
+      </section>
+
+    </aside>
+
+  </div>
+
+  <!-- AI -->
+  <section class="ai-banner">
+
+    <div class="ai-icon">
+      <i class="bi bi-stars"></i>
+    </div>
+
+    <div class="ai-content">
+
+      <span>AI Banking Assistant</span>
+
+      <h3>Have questions about your Fixed Deposit?</h3>
+
+      <p>
+        Ask about maturity, interest, renewal or your FD returns.
+      </p>
+
+    </div>
+
+    <button class="ai-btn">
+      Ask AI Assistant
+      <i class="bi bi-arrow-up-right"></i>
+    </button>
+
+  </section>
+
+</div>

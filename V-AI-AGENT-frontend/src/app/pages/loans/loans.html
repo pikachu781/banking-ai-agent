@@ -1,0 +1,347 @@
+<div class="loans-page">
+
+  <!-- HEADER -->
+  <div class="page-header">
+
+    <div>
+      <div class="breadcrumb">
+        <span>Home</span>
+        <i class="bi bi-chevron-right"></i>
+        <span>Loans</span>
+      </div>
+
+      <h1>My Loans</h1>
+
+      <p>
+        Track your loans, EMI payments and repayment progress.
+      </p>
+    </div>
+
+    <button class="notification-btn">
+      <i class="bi bi-bell"></i>
+      <span></span>
+    </button>
+
+  </div>
+
+
+  <!-- MAIN GRID -->
+  <div class="loans-grid">
+
+    <!-- LEFT -->
+    <div class="main-column">
+
+      <!-- LOAN HERO -->
+      <section class="loan-hero">
+
+        <div class="hero-top">
+
+          <div>
+            <span class="eyebrow">ACTIVE LOAN</span>
+            <h2>Personal Loan</h2>
+          </div>
+
+          <div class="active-status">
+            <span></span>
+            Active
+          </div>
+
+        </div>
+
+
+        <div class="loan-main">
+
+          <div>
+            <span class="small-label">OUTSTANDING AMOUNT</span>
+
+            <div class="outstanding">
+              {{ loan.outstanding }}
+            </div>
+
+            <span class="loan-number">
+              Loan {{ loan.loanNumber }}
+            </span>
+          </div>
+
+          <div class="loan-amount-circle">
+            <div class="circle-inner">
+              <strong>0%</strong>
+              <span>Repaid</span>
+            </div>
+          </div>
+
+        </div>
+
+
+        <div class="hero-stats">
+
+          <div>
+            <span>Interest Rate</span>
+            <strong>{{ loan.interestRate }}</strong>
+          </div>
+
+          <div>
+            <span>Loan Tenure</span>
+            <strong>{{ loan.tenure }}</strong>
+          </div>
+
+          <div>
+            <span>Monthly EMI</span>
+            <strong>{{ loan.emi }}</strong>
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- REPAYMENT -->
+      <section class="repayment-section">
+
+        <div class="section-title">
+
+          <div>
+            <span class="eyebrow">REPAYMENT</span>
+            <h2>Loan Progress</h2>
+          </div>
+
+          <span class="percentage">
+            {{ loanProgress.percentage }}%
+          </span>
+
+        </div>
+
+
+        <div class="repayment-bar">
+          <div class="repayment-fill"></div>
+        </div>
+
+
+        <div class="repayment-info">
+
+          <div>
+            <span>Amount Paid</span>
+            <strong>{{ loanProgress.paid }}</strong>
+          </div>
+
+          <div>
+            <span>Remaining</span>
+            <strong>{{ loanProgress.remaining }}</strong>
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- PAYMENT ACTIVITY -->
+      <section class="payment-section">
+
+        <div class="section-title">
+
+          <div>
+            <span class="eyebrow">PAYMENT ACTIVITY</span>
+            <h2>Loan Timeline</h2>
+          </div>
+
+          <button class="view-button">
+            View details
+            <i class="bi bi-arrow-up-right"></i>
+          </button>
+
+        </div>
+
+
+        <div class="payment-list">
+
+          @for (payment of payments; track payment.title) {
+
+            <div class="payment-row">
+
+              <div class="payment-icon">
+                <i class="bi {{ payment.icon }}"></i>
+              </div>
+
+              <div class="payment-info">
+
+                <strong>{{ payment.title }}</strong>
+
+                <span>
+                  {{ payment.date }}
+                </span>
+
+              </div>
+
+              <div class="payment-right">
+
+                <strong>{{ payment.amount }}</strong>
+
+                <span
+                  [class.completed]="payment.status === 'Completed'">
+                  {{ payment.status }}
+                </span>
+
+              </div>
+
+            </div>
+
+          }
+
+        </div>
+
+      </section>
+
+
+      <!-- LOAN OPTIONS -->
+      <section class="loan-options">
+
+        <div class="section-title">
+
+          <div>
+            <span class="eyebrow">EXPLORE</span>
+            <h2>More Loan Options</h2>
+          </div>
+
+        </div>
+
+
+        <div class="loan-types">
+
+          @for (type of loanTypes; track type.title) {
+
+            <div class="loan-type">
+
+              <div class="type-icon">
+                <i class="bi {{ type.icon }}"></i>
+              </div>
+
+              <div class="type-content">
+
+                <strong>{{ type.title }}</strong>
+
+                <p>
+                  {{ type.description }}
+                </p>
+
+                <span>
+                  {{ type.rate }}
+                </span>
+
+              </div>
+
+              <i class="bi bi-arrow-up-right type-arrow"></i>
+
+            </div>
+
+          }
+
+        </div>
+
+      </section>
+
+    </div>
+
+
+    <!-- RIGHT -->
+    <div class="side-column">
+
+      <!-- EMI CARD -->
+      <div class="emi-card">
+
+        <div class="emi-icon">
+          <i class="bi bi-calendar2-check"></i>
+        </div>
+
+        <span class="eyebrow">NEXT EMI</span>
+
+        <h3>{{ loan.emi }}</h3>
+
+        <p>
+          Due on 05 October 2026
+        </p>
+
+        <div class="emi-divider"></div>
+
+        <div class="emi-row">
+          <span>Loan Amount</span>
+          <strong>{{ loan.sanctioned }}</strong>
+        </div>
+
+        <div class="emi-row">
+          <span>Interest Rate</span>
+          <strong>{{ loan.interestRate }}</strong>
+        </div>
+
+        <button class="primary-button">
+          Pay EMI
+          <i class="bi bi-arrow-right"></i>
+        </button>
+
+      </div>
+
+
+      <!-- QUICK ACTIONS -->
+      <div class="quick-card">
+
+        <span class="eyebrow">LOAN MANAGEMENT</span>
+        <h3>Quick Actions</h3>
+
+        <div class="quick-list">
+
+          @for (action of actions; track action.title) {
+
+            <button class="quick-action">
+
+              <div class="quick-icon">
+                <i class="bi {{ action.icon }}"></i>
+              </div>
+
+              <div class="quick-content">
+                <strong>{{ action.title }}</strong>
+                <span>{{ action.subtitle }}</span>
+              </div>
+
+              <i class="bi bi-chevron-right arrow"></i>
+
+            </button>
+
+          }
+
+        </div>
+
+      </div>
+
+
+      <!-- AI -->
+      <div class="ai-card">
+
+        <div class="ai-orb"></div>
+
+        <div class="ai-icon">
+          <i class="bi bi-stars"></i>
+        </div>
+
+        <span class="ai-label">
+          AI BANKING ASSISTANT
+        </span>
+
+        <h3>
+          Need help with your loan?
+        </h3>
+
+        <p>
+          Ask about EMI, interest rates, repayment or loan details.
+        </p>
+
+        <button class="ai-button">
+          Ask AI Assistant
+          <i class="bi bi-arrow-up-right"></i>
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

@@ -1,0 +1,1008 @@
+<div class="chat-page">
+
+  <div class="chat-card">
+
+
+    <!-- ================================================= -->
+    <!-- HEADER -->
+    <!-- ================================================= -->
+
+    <div class="chat-header">
+
+      <div class="header-left">
+
+        <div class="ai-avatar">
+          <span>🤖</span>
+
+          <div class="avatar-glow"></div>
+        </div>
+
+
+        <div class="ai-info">
+
+          <div class="ai-title-row">
+
+            <h4>
+              Voice AI Assistant
+            </h4>
+
+            <span class="verified-badge">
+              ✓ AI
+            </span>
+
+          </div>
+
+
+          <div class="online-status">
+
+            <span class="online-dot"></span>
+
+            <span>
+              Online • Ready to help
+            </span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="header-right">
+
+        <div class="rag-badge">
+
+          <span class="rag-icon">
+            ✦
+          </span>
+
+          RAG AI
+
+        </div>
+
+
+        <button
+          *ngIf="isSpeaking"
+          type="button"
+          class="stop-speech-button"
+          (click)="stopSpeaking()"
+          title="Stop AI voice"
+        >
+
+          ⏹
+
+        </button>
+
+      </div>
+
+    </div>
+
+
+
+    <!-- ================================================= -->
+    <!-- CHAT BODY -->
+    <!-- ================================================= -->
+
+    <div
+      #chatContainer
+      class="chat-container"
+    >
+
+
+      <!-- ================================================= -->
+      <!-- EMPTY STATE -->
+      <!-- ================================================= -->
+
+      <div
+        *ngIf="messages.length === 0"
+        class="empty-state"
+      >
+
+        <div class="welcome-orbit">
+
+          <div class="welcome-icon">
+            🤖
+          </div>
+
+          <div class="orbit orbit-one"></div>
+
+          <div class="orbit orbit-two"></div>
+
+        </div>
+
+
+        <h2>
+          How can I help you?
+        </h2>
+
+
+        <p>
+          Talk to your AI assistant using your voice
+          or type your message below.
+        </p>
+
+
+        <div class="capability-row">
+
+          <span>
+            🎤 Voice
+          </span>
+
+          <span>
+            🧠 Memory
+          </span>
+
+          <span>
+            ✦ RAG
+          </span>
+
+        </div>
+
+
+        <!-- SUGGESTIONS -->
+
+        <div class="suggestions">
+
+          <button
+            type="button"
+            (click)="message = 'What am I learning recently?'"
+          >
+
+            <span class="suggestion-icon">
+              📚
+            </span>
+
+            <span>
+              What am I learning recently?
+            </span>
+
+            <span class="arrow">
+              →
+            </span>
+
+          </button>
+
+
+          <button
+            type="button"
+            (click)="message = 'What technologies do I know?'"
+          >
+
+            <span class="suggestion-icon">
+              💻
+            </span>
+
+            <span>
+              What technologies do I know?
+            </span>
+
+            <span class="arrow">
+              →
+            </span>
+
+          </button>
+
+
+          <button
+            type="button"
+            (click)="message = 'What are my current goals?'"
+          >
+
+            <span class="suggestion-icon">
+              🎯
+            </span>
+
+            <span>
+              What are my current goals?
+            </span>
+
+            <span class="arrow">
+              →
+            </span>
+
+          </button>
+
+        </div>
+
+      </div>
+
+
+
+      <!-- ================================================= -->
+      <!-- MESSAGES -->
+      <!-- ================================================= -->
+
+      <div
+        *ngFor="let msg of messages"
+        class="message-row"
+        [class.user-row]="msg.role === 'user'"
+        [class.ai-row]="msg.role === 'assistant'"
+      >
+
+
+        <!-- AI AVATAR -->
+
+        <div
+          *ngIf="msg.role === 'assistant'"
+          class="message-avatar ai-message-avatar"
+        >
+
+          🤖
+
+        </div>
+
+
+        <!-- MESSAGE CONTENT -->
+
+        <div
+          class="message-content"
+          [class.user-content]="msg.role === 'user'"
+          [class.ai-content]="msg.role === 'assistant'"
+        >
+
+
+          <div class="message-label">
+
+            <span *ngIf="msg.role === 'assistant'">
+              AI Assistant
+            </span>
+
+            <span *ngIf="msg.role === 'user'">
+              You
+            </span>
+
+          </div>
+
+
+          <div
+            class="message-bubble"
+            [class.user-message]="msg.role === 'user'"
+            [class.ai-message]="msg.role === 'assistant'"
+          >
+
+            {{ msg.content }}
+
+          </div>
+
+
+          <!-- AI ACTIONS -->
+
+          <div
+            *ngIf="msg.role === 'assistant'"
+            class="message-actions"
+          >
+
+            <button
+              type="button"
+              (click)="speakMessage(msg.content)"
+              title="Speak this message"
+            >
+
+              🔊
+
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <!-- USER AVATAR -->
+
+        <div
+          *ngIf="msg.role === 'user'"
+          class="message-avatar user-message-avatar"
+        >
+
+          👤
+
+        </div>
+
+      </div>
+
+
+
+      <!-- ================================================= -->
+      <!-- TYPING -->
+      <!-- ================================================= -->
+
+      <div
+        *ngIf="loading"
+        class="message-row ai-row"
+      >
+
+        <div class="message-avatar ai-message-avatar">
+          🤖
+        </div>
+
+
+        <div class="typing-content">
+
+          <div class="message-label">
+            AI Assistant
+          </div>
+
+
+          <div class="typing-bubble">
+
+            <span></span>
+            <span></span>
+            <span></span>
+
+            <small>
+              Thinking...
+            </small>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+
+      <!-- ================================================= -->
+      <!-- LISTENING -->
+      <!-- ================================================= -->
+       <!-- ================================================= -->
+<!-- FD CALCULATOR -->
+<!-- ================================================= -->
+
+<div
+  *ngIf="showFdCalculator"
+  class="fd-calculator-panel"
+>
+
+  <!-- HEADER -->
+
+  <div class="fd-calculator-header">
+
+    <div>
+      <h3>
+        🏦 FD Calculator
+      </h3>
+
+      <p>
+        Calculate your Fixed Deposit maturity amount
+      </p>
+    </div>
+
+    <button
+      type="button"
+      class="fd-close-button"
+      (click)="closeFdCalculator()"
+      title="Close calculator"
+    >
+      ✕
+    </button>
+
+  </div>
+
+
+  <!-- FORM -->
+
+  <div class="fd-calculator-form">
+
+    <!-- AMOUNT -->
+
+    <div class="fd-form-group">
+
+      <label>
+        Investment Amount
+      </label>
+
+      <div class="fd-input-wrapper">
+
+        <span>
+          ₹
+        </span>
+
+        <input
+          type="number"
+          [(ngModel)]="fdAmount"
+          placeholder="Enter amount"
+          min="1"
+        />
+
+      </div>
+
+    </div>
+
+
+    <!-- RATE -->
+
+    <div class="fd-form-group">
+
+      <label>
+        Interest Rate (%)
+      </label>
+
+      <div class="fd-input-wrapper">
+
+        <span>
+          %
+        </span>
+
+        <input
+          type="number"
+          [(ngModel)]="fdRate"
+          placeholder="Example: 7"
+          min="0"
+          step="0.01"
+        />
+
+      </div>
+
+    </div>
+
+
+    <!-- TENURE -->
+
+    <div class="fd-form-group">
+
+      <label>
+        Tenure
+      </label>
+
+      <div class="fd-tenure-row">
+
+        <input
+          type="number"
+          [(ngModel)]="fdTenure"
+          placeholder="Example: 2"
+          min="1"
+          step="0.1"
+        />
+
+        <select
+          [(ngModel)]="fdTenureUnit"
+        >
+
+          <option value="years">
+            Years
+          </option>
+
+          <option value="months">
+            Months
+          </option>
+
+        </select>
+
+      </div>
+
+    </div>
+
+
+    <!-- BUTTONS -->
+
+    <div class="fd-button-row">
+
+      <button
+        type="button"
+        class="fd-calculate-button"
+        (click)="calculateFd()"
+        [disabled]="fdCalculating"
+      >
+
+        <span *ngIf="!fdCalculating">
+          Calculate FD
+        </span>
+
+        <span *ngIf="fdCalculating">
+          Calculating...
+        </span>
+
+      </button>
+
+
+      <button
+        type="button"
+        class="fd-reset-button"
+        (click)="resetFdCalculator()"
+      >
+
+        Reset
+
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- RESULT -->
+
+  <div
+    *ngIf="fdResult"
+    class="fd-result"
+  >
+
+    <div class="fd-result-title">
+      ✅ FD Calculation Result
+    </div>
+
+
+    <div class="fd-result-grid">
+
+      <div class="fd-result-item">
+
+        <span>
+          Principal
+        </span>
+
+        <strong>
+          ₹{{ fdResult.principal | number:'1.2-2' }}
+        </strong>
+
+      </div>
+
+
+      <div class="fd-result-item">
+
+        <span>
+          Interest Rate
+        </span>
+
+        <strong>
+          {{ fdResult.rate }}%
+        </strong>
+
+      </div>
+
+
+      <div class="fd-result-item">
+
+        <span>
+          Tenure
+        </span>
+
+        <strong>
+          {{ fdResult.years }} years
+        </strong>
+
+      </div>
+
+
+      <div class="fd-result-item">
+
+        <span>
+          Interest Earned
+        </span>
+
+        <strong>
+          ₹{{ fdResult.interest | number:'1.2-2' }}
+        </strong>
+
+      </div>
+
+    </div>
+
+
+    <div class="fd-maturity">
+
+      <span>
+        Maturity Amount
+      </span>
+
+      <strong>
+        ₹{{ fdResult.maturityAmount | number:'1.2-2' }}
+      </strong>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+
+
+<!-- ============================================================
+     EMI CALCULATOR
+============================================================ -->
+
+<div
+  *ngIf="showEmiCalculator"
+  class="emi-calculator-panel"
+>
+
+  <div class="emi-header">
+
+    <div>
+      <h3>💰 EMI Calculator</h3>
+
+      <p>
+        Calculate your monthly loan EMI
+      </p>
+    </div>
+
+    <button
+      type="button"
+      class="emi-close-btn"
+      (click)="showEmiCalculator = false"
+    >
+      ✕
+    </button>
+
+  </div>
+
+
+  <!-- ========================================================
+       LOAN AMOUNT
+  ========================================================= -->
+
+  <div class="emi-form-group">
+
+    <label>
+      Loan Amount
+    </label>
+
+    <input
+      type="number"
+      [(ngModel)]="emiAmount"
+      placeholder="Enter loan amount"
+      min="1"
+    />
+
+  </div>
+
+
+  <!-- ========================================================
+       INTEREST RATE
+  ========================================================= -->
+
+  <div class="emi-form-group">
+
+    <label>
+      Interest Rate (% per year)
+    </label>
+
+    <input
+      type="number"
+      [(ngModel)]="emiRate"
+      placeholder="Example: 8.5"
+      min="0.01"
+      step="0.01"
+    />
+
+  </div>
+
+
+  <!-- ========================================================
+       TENURE
+  ========================================================= -->
+
+  <div class="emi-form-group">
+
+    <label>
+      Loan Tenure
+    </label>
+
+    <div class="emi-tenure-row">
+
+      <input
+        type="number"
+        [(ngModel)]="emiTenure"
+        placeholder="Enter tenure"
+        min="1"
+      />
+
+      <select
+        [(ngModel)]="emiTenureUnit"
+      >
+
+        <option value="years">
+          Years
+        </option>
+
+        <option value="months">
+          Months
+        </option>
+
+      </select>
+
+    </div>
+
+  </div>
+
+
+  <!-- ========================================================
+       BUTTONS
+  ========================================================= -->
+
+  <div class="emi-buttons">
+
+    <button
+      type="button"
+      class="emi-calculate-btn"
+      (click)="calculateEmi()"
+      [disabled]="emiCalculating"
+    >
+
+      <span *ngIf="!emiCalculating">
+        Calculate EMI
+      </span>
+
+      <span *ngIf="emiCalculating">
+        Calculating...
+      </span>
+
+    </button>
+
+
+    <button
+      type="button"
+      class="emi-reset-btn"
+      (click)="resetEmiCalculator()"
+    >
+      Reset
+    </button>
+
+  </div>
+
+
+  <!-- ========================================================
+       RESULT
+  ========================================================= -->
+
+  <div
+    *ngIf="emiResult"
+    class="emi-result"
+  >
+
+    <div class="emi-result-title">
+      ✅ EMI Calculation Result
+    </div>
+
+
+    <div class="emi-result-grid">
+
+      <div class="emi-result-item">
+
+        <span>
+          Loan Amount
+        </span>
+
+        <strong>
+          ₹{{ emiResult.principal | number:'1.2-2' }}
+        </strong>
+
+      </div>
+
+
+      <div class="emi-result-item">
+
+        <span>
+          Interest Rate
+        </span>
+
+        <strong>
+          {{ emiResult.annualRate }}%
+        </strong>
+
+      </div>
+
+
+      <div class="emi-result-item">
+
+        <span>
+          Tenure
+        </span>
+
+        <strong>
+          {{ emiResult.years }} years
+        </strong>
+
+      </div>
+
+
+      <div class="emi-result-item">
+
+        <span>
+          Total Interest
+        </span>
+
+        <strong>
+          ₹{{ emiResult.totalInterest | number:'1.2-2' }}
+        </strong>
+
+      </div>
+
+    </div>
+
+
+    <!-- ======================================================
+         MONTHLY EMI
+    ====================================================== -->
+
+    <div class="emi-monthly">
+
+      <span>
+        Monthly EMI
+      </span>
+
+      <strong>
+        ₹{{ emiResult.emi | number:'1.2-2' }}
+      </strong>
+
+    </div>
+
+
+    <!-- ======================================================
+         TOTAL PAYMENT
+    ====================================================== -->
+
+    <div class="emi-total">
+
+      <span>
+        Total Payment
+      </span>
+
+      <strong>
+        ₹{{ emiResult.totalPayment | number:'1.2-2' }}
+      </strong>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+      <div
+        *ngIf="isListening"
+        class="listening-panel"
+      >
+
+        <div class="sound-wave">
+
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+
+        </div>
+
+
+        <div>
+
+          <strong>
+            Listening
+          </strong>
+
+          <small>
+            Speak naturally...
+          </small>
+
+        </div>
+
+      </div>
+
+
+    </div>
+
+
+
+    <!-- ================================================= -->
+    <!-- FOOTER -->
+    <!-- ================================================= -->
+
+    <div class="chat-footer">
+
+
+      <!-- SPEAKING STATUS -->
+
+      <div
+        *ngIf="isSpeaking"
+        class="speaking-status"
+      >
+
+        <span class="speaking-icon">
+          🔊
+        </span>
+
+        AI is speaking...
+
+        <button
+          type="button"
+          (click)="stopSpeaking()"
+        >
+
+          Stop
+
+        </button>
+
+      </div>
+
+
+
+      <!-- INPUT -->
+
+      <div class="input-wrapper">
+
+
+        <div class="input-box">
+
+          <textarea
+            [(ngModel)]="message"
+            (keydown.enter)="onEnter($event)"
+            rows="1"
+            class="message-input"
+            placeholder="Ask your AI assistant..."
+          ></textarea>
+
+
+          <!-- MIC -->
+
+          <button
+            type="button"
+            class="input-button mic-button"
+            [class.listening]="isListening"
+            (click)="startVoiceInput()"
+            [title]="isListening ? 'Stop listening' : 'Voice input'"
+          >
+
+            <span *ngIf="!isListening">
+              🎤
+            </span>
+
+            <span *ngIf="isListening">
+              ⏹
+            </span>
+
+          </button>
+
+
+          <!-- SEND -->
+
+          <button
+            type="button"
+            class="send-button"
+            (click)="sendMessage()"
+            [disabled]="!message.trim() || loading"
+            title="Send message"
+          >
+
+            <span>
+              ➤
+            </span>
+
+          </button>
+
+        </div>
+
+      </div>
+
+
+
+      <!-- FOOTER INFO -->
+
+      <div class="footer-info">
+
+        <span>
+          🔒 Your conversation is protected
+        </span>
+
+        <span>
+          🎤 Voice enabled
+        </span>
+
+        <span>
+          🧠 Memory enabled
+        </span>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+ 

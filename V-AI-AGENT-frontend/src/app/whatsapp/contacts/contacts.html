@@ -1,0 +1,255 @@
+<div class="contacts-page">
+
+  <div class="page-header">
+
+    <div>
+      <h1>WhatsApp Contacts</h1>
+
+      <p>
+        Manage customers who can receive WhatsApp messages.
+      </p>
+    </div>
+
+  </div>
+
+
+  <!-- ========================= -->
+  <!-- ADD CONTACT -->
+  <!-- ========================= -->
+
+  <div class="contact-card">
+
+    <h2>Add WhatsApp Contact</h2>
+
+    <form (ngSubmit)="saveContact()">
+
+      <div class="form-group">
+
+        <label>Customer Name</label>
+
+        <input
+          type="text"
+          name="name"
+          [(ngModel)]="name"
+          placeholder="Enter customer name"
+        />
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>WhatsApp Number</label>
+
+        <input
+          type="text"
+          name="phoneNumber"
+          [(ngModel)]="phoneNumber"
+          placeholder="+919876543210"
+        />
+
+      </div>
+
+
+      <div class="checkbox">
+
+        <input
+          type="checkbox"
+          name="optedIn"
+          [(ngModel)]="optedIn"
+          id="optedIn"
+        />
+
+        <label for="optedIn">
+          Customer has opted in to receive WhatsApp messages
+        </label>
+
+      </div>
+
+
+      <button
+        type="submit"
+        [disabled]="loading"
+      >
+
+        {{ loading ? 'Saving...' : 'Add Contact' }}
+
+      </button>
+
+    </form>
+
+
+    <!-- SUCCESS -->
+
+    <div
+      class="success"
+      *ngIf="successMessage"
+    >
+
+      {{ successMessage }}
+
+    </div>
+
+
+    <!-- ERROR -->
+
+    <div
+      class="error"
+      *ngIf="errorMessage"
+    >
+
+      {{ errorMessage }}
+
+    </div>
+
+  </div>
+
+
+  <!-- ========================= -->
+  <!-- CONTACT LIST -->
+  <!-- ========================= -->
+
+  <div class="contact-card">
+
+    <div class="list-header">
+
+      <div>
+        <h2>My Contacts</h2>
+
+        <span>
+          {{ contacts.length }} contacts
+        </span>
+      </div>
+
+      <button
+        type="button"
+        class="refresh"
+        (click)="loadContacts()"
+      >
+        Refresh
+      </button>
+
+    </div>
+
+
+    <!-- LOADING -->
+
+    <div
+      class="loading"
+      *ngIf="loading && contacts.length === 0"
+    >
+
+      Loading contacts...
+
+    </div>
+
+
+    <!-- EMPTY -->
+
+    <div
+      class="empty"
+      *ngIf="!loading && contacts.length === 0"
+    >
+
+      <h3>No contacts yet</h3>
+
+      <p>
+        Add your first WhatsApp contact above.
+      </p>
+
+    </div>
+
+
+    <!-- TABLE -->
+
+    <div
+      class="table-container"
+      *ngIf="contacts.length > 0"
+    >
+
+      <table>
+
+        <thead>
+
+          <tr>
+
+            <th>#</th>
+
+            <th>Name</th>
+
+            <th>WhatsApp Number</th>
+
+            <th>Permission</th>
+
+            <th>Created</th>
+
+            <th>Action</th>
+
+          </tr>
+
+        </thead>
+
+
+        <tbody>
+
+          <tr
+            *ngFor="let contact of contacts; let i = index"
+          >
+
+            <td>
+              {{ i + 1 }}
+            </td>
+
+            <td>
+              {{ contact.name }}
+            </td>
+
+            <td>
+              {{ contact.phoneNumber }}
+            </td>
+
+            <td>
+
+              <span
+                class="status"
+                [class.active]="contact.optedIn"
+                [class.inactive]="!contact.optedIn"
+              >
+
+                {{ contact.optedIn ? 'Opted In' : 'Not Opted In' }}
+
+              </span>
+
+            </td>
+
+            <td>
+
+              {{ contact.createdAt | date:'medium' }}
+
+            </td>
+
+            <td>
+
+              <button
+                type="button"
+                class="delete"
+                (click)="deleteContact(contact.id)"
+              >
+
+                Delete
+
+              </button>
+
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</div>

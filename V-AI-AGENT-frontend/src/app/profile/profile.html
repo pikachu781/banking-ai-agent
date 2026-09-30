@@ -1,0 +1,284 @@
+<div class="profile-page">
+
+  <div class="profile-container">
+
+    <!-- PAGE HEADER -->
+
+    <div class="page-header">
+
+      <div>
+        <h1>My Profile</h1>
+        <p>Manage your account information and password.</p>
+      </div>
+
+    </div>
+
+
+    <!-- LOADING -->
+
+    <div
+      class="loading"
+      *ngIf="loading"
+    >
+      Loading profile...
+    </div>
+
+
+    <!-- ERROR -->
+
+    <div
+      class="alert error-alert"
+      *ngIf="errorMessage"
+    >
+      {{ errorMessage }}
+    </div>
+
+
+    <!-- SUCCESS -->
+
+    <div
+      class="alert success-alert"
+      *ngIf="successMessage"
+    >
+      {{ successMessage }}
+    </div>
+
+
+    <div
+      class="profile-grid"
+      *ngIf="!loading && profile"
+    >
+
+      <!-- ========================= -->
+      <!-- PROFILE INFORMATION -->
+      <!-- ========================= -->
+
+      <div class="card profile-card">
+
+        <div class="card-header">
+
+          <div class="avatar">
+            {{ profile.username.charAt(0).toUpperCase() }}
+          </div>
+
+          <div>
+            <h2>{{ profile.username }}</h2>
+            <p>{{ profile.email }}</p>
+          </div>
+
+        </div>
+
+
+        <div class="profile-info">
+
+          <div class="info-row">
+            <span>Username</span>
+            <strong>{{ profile.username }}</strong>
+          </div>
+
+          <div class="info-row">
+            <span>Email</span>
+            <strong>{{ profile.email }}</strong>
+          </div>
+
+          <div class="info-row">
+            <span>Role</span>
+            <strong>{{ profile.role }}</strong>
+          </div>
+
+          <div class="info-row">
+            <span>Email Status</span>
+
+            <strong
+              [class.verified]="profile.emailVerified"
+              [class.not-verified]="!profile.emailVerified"
+            >
+              {{ profile.emailVerified ? 'Verified' : 'Not Verified' }}
+            </strong>
+
+          </div>
+
+          <div class="info-row">
+            <span>Account Created</span>
+
+            <strong>
+              {{ profile.createdAt | date:'dd MMM yyyy' }}
+            </strong>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- ========================= -->
+      <!-- UPDATE PROFILE -->
+      <!-- ========================= -->
+
+      <div class="card">
+
+        <div class="card-title">
+
+          <h2>Edit Profile</h2>
+
+          <p>
+            Update your username.
+          </p>
+
+        </div>
+
+
+        <form
+          [formGroup]="profileForm"
+          (ngSubmit)="updateProfile()"
+        >
+
+          <div class="form-group">
+
+            <label for="username">
+              Username
+            </label>
+
+            <input
+              id="username"
+              type="text"
+              formControlName="username"
+              placeholder="Enter username"
+            />
+
+            <small
+              class="field-error"
+              *ngIf="
+                profileForm.get('username')?.touched &&
+                profileForm.get('username')?.invalid
+              "
+            >
+              Username must contain 3-50 characters.
+            </small>
+
+          </div>
+
+
+          <button
+            type="submit"
+            [disabled]="updating"
+          >
+
+            <span *ngIf="!updating">
+              Save Changes
+            </span>
+
+            <span *ngIf="updating">
+              Updating...
+            </span>
+
+          </button>
+
+        </form>
+
+      </div>
+
+
+      <!-- ========================= -->
+      <!-- CHANGE PASSWORD -->
+      <!-- ========================= -->
+
+      <div class="card password-card">
+
+        <div class="card-title">
+
+          <h2>Change Password</h2>
+
+          <p>
+            Keep your account secure with a strong password.
+          </p>
+
+        </div>
+
+
+        <form
+          [formGroup]="passwordForm"
+          (ngSubmit)="changePassword()"
+        >
+
+          <!-- CURRENT PASSWORD -->
+
+          <!-- CURRENT PASSWORD -->
+
+<div class="form-group">
+
+  <label for="currentPassword">
+    Current Password
+  </label>
+
+  <div class="password-wrapper">
+
+    <input
+      id="currentPassword"
+      [type]="showCurrentPassword ? 'text' : 'password'"
+      formControlName="currentPassword"
+      placeholder="Enter current password"
+    />
+
+    <button
+      type="button"
+      class="show-password"
+      (click)="showCurrentPassword = !showCurrentPassword"
+    >
+      {{ showCurrentPassword ? 'Hide' : 'Show' }}
+    </button>
+
+  </div>
+
+  <small
+    class="field-error"
+    *ngIf="
+      passwordForm.get('currentPassword')?.touched &&
+      passwordForm.get('currentPassword')?.invalid
+    "
+  >
+    Current password is required.
+  </small>
+
+</div>
+
+
+<!-- NEW PASSWORD -->
+
+<div class="form-group">
+
+  <label for="newPassword">
+    New Password
+  </label>
+
+  <div class="password-wrapper">
+
+    <input
+      id="newPassword"
+      [type]="showNewPassword ? 'text' : 'password'"
+      formControlName="newPassword"
+      placeholder="Enter new password"
+    />
+
+    <button
+      type="button"
+      class="show-password"
+      (click)="showNewPassword = !showNewPassword"
+    >
+      {{ showNewPassword ? 'Hide' : 'Show' }}
+    </button>
+
+  </div>
+
+  <small
+    class="field-error"
+    *ngIf="
+      passwordForm.get('newPassword')?.touched &&
+      passwordForm.get('newPassword')?.invalid
+    "
+  >
+    Password must contain at least 6 characters.
+  </small>
+
+</div>

@@ -1,0 +1,579 @@
+<div class="transactions-page">
+
+  <!-- =====================================================
+       HEADER
+  ====================================================== -->
+
+  <header class="page-header">
+
+    <div>
+
+      <div class="breadcrumb">
+        <i class="bi bi-grid"></i>
+        <span>Banking</span>
+        <i class="bi bi-chevron-right"></i>
+        <span>Transactions</span>
+      </div>
+
+      <h1>Transactions</h1>
+
+      <p>
+        Track and manage your recent financial activity.
+      </p>
+
+    </div>
+
+
+    <div class="header-actions">
+
+      <button class="export-button">
+        <i class="bi bi-download"></i>
+        Export
+      </button>
+
+      <button class="notification-button">
+
+        <i class="bi bi-bell"></i>
+
+        <span></span>
+
+      </button>
+
+    </div>
+
+  </header>
+
+
+  <!-- =====================================================
+       SUMMARY CARDS
+  ====================================================== -->
+
+  <section class="summary-grid">
+
+
+    <!-- BALANCE -->
+
+    <div class="summary-card balance-card">
+
+      <div class="summary-top">
+
+        <div class="summary-icon purple">
+          <i class="bi bi-wallet2"></i>
+        </div>
+
+        <span class="summary-label">
+          CURRENT BALANCE
+        </span>
+
+      </div>
+
+      <h2>₹75,000</h2>
+
+      <div class="summary-footer">
+
+        <span>
+          <i class="bi bi-arrow-up-right"></i>
+          Available balance
+        </span>
+
+        <strong>+8.4%</strong>
+
+      </div>
+
+    </div>
+
+
+    <!-- INCOME -->
+
+    <div class="summary-card">
+
+      <div class="summary-top">
+
+        <div class="summary-icon green">
+          <i class="bi bi-arrow-down-left"></i>
+        </div>
+
+        <span class="summary-label">
+          MONEY IN
+        </span>
+
+      </div>
+
+      <h2>₹40,000</h2>
+
+      <div class="summary-footer">
+
+        <span>2 transactions</span>
+
+        <strong class="positive">
+          +₹40K
+        </strong>
+
+      </div>
+
+    </div>
+
+
+    <!-- EXPENSE -->
+
+    <div class="summary-card">
+
+      <div class="summary-top">
+
+        <div class="summary-icon red">
+          <i class="bi bi-arrow-up-right"></i>
+        </div>
+
+        <span class="summary-label">
+          MONEY OUT
+        </span>
+
+      </div>
+
+      <h2>₹3,700</h2>
+
+      <div class="summary-footer">
+
+        <span>3 transactions</span>
+
+        <strong class="negative">
+          -₹3.7K
+        </strong>
+
+      </div>
+
+    </div>
+
+
+    <!-- SAVINGS -->
+
+    <div class="summary-card">
+
+      <div class="summary-top">
+
+        <div class="summary-icon blue">
+          <i class="bi bi-piggy-bank"></i>
+        </div>
+
+        <span class="summary-label">
+          SAVINGS RATE
+        </span>
+
+      </div>
+
+      <h2>91%</h2>
+
+      <div class="summary-footer">
+
+        <span>This month</span>
+
+        <strong class="positive">
+          Excellent
+        </strong>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =====================================================
+       MAIN CONTENT
+  ====================================================== -->
+
+  <div class="content-grid">
+
+
+    <!-- ===================================================
+         TRANSACTIONS LIST
+    ==================================================== -->
+
+    <section class="transactions-card">
+
+
+      <div class="card-header">
+
+        <div>
+
+          <span class="section-label">
+            ACCOUNT ACTIVITY
+          </span>
+
+          <h2>Recent Transactions</h2>
+
+        </div>
+
+
+        <button class="filter-button">
+
+          <i class="bi bi-sliders"></i>
+
+          Filters
+
+        </button>
+
+      </div>
+
+
+      <!-- SEARCH -->
+
+      <div class="search-area">
+
+        <div class="search-box">
+
+          <i class="bi bi-search"></i>
+
+          <input
+            type="text"
+            placeholder="Search transactions..."
+          />
+
+        </div>
+
+
+        <button class="date-button">
+
+          <i class="bi bi-calendar3"></i>
+
+          September 2026
+
+          <i class="bi bi-chevron-down"></i>
+
+        </button>
+
+      </div>
+
+
+      <!-- FILTERS -->
+
+      <div class="filter-tabs">
+
+        @for (filter of filters; track filter) {
+
+          <button
+            [class.active]="selectedFilter === filter"
+            (click)="selectFilter(filter)"
+          >
+
+            {{ filter }}
+
+          </button>
+
+        }
+
+      </div>
+
+
+      <!-- TRANSACTION LIST -->
+
+      <div class="transaction-list">
+
+        @for (
+          transaction of filteredTransactions;
+          track transaction.title
+        ) {
+
+          <div class="transaction-row">
+
+
+            <div
+              class="transaction-icon"
+              [class.credit]="transaction.type === 'credit'"
+              [class.debit]="transaction.type === 'debit'"
+            >
+
+              <i class="bi {{ transaction.icon }}"></i>
+
+            </div>
+
+
+            <div class="transaction-info">
+
+              <strong>
+                {{ transaction.title }}
+              </strong>
+
+              <span>
+                {{ transaction.description }}
+              </span>
+
+            </div>
+
+
+            <div class="transaction-category">
+
+              <span>
+                {{ transaction.category }}
+              </span>
+
+            </div>
+
+
+            <div class="transaction-date">
+
+              <strong>
+                {{ transaction.date }}
+              </strong>
+
+              <span>
+                {{ transaction.time }}
+              </span>
+
+            </div>
+
+
+            <div
+              class="transaction-amount"
+              [class.credit-text]="transaction.type === 'credit'"
+              [class.debit-text]="transaction.type === 'debit'"
+            >
+
+              {{ transaction.type === 'credit' ? '+' : '-' }}
+              ₹{{ transaction.amount | number }}
+
+            </div>
+
+
+            <button class="more-button">
+
+              <i class="bi bi-three-dots"></i>
+
+            </button>
+
+          </div>
+
+        }
+
+      </div>
+
+
+      <!-- PAGINATION -->
+
+      <div class="pagination">
+
+        <span>
+          Showing 5 of 24 transactions
+        </span>
+
+        <div class="pagination-buttons">
+
+          <button disabled>
+            <i class="bi bi-chevron-left"></i>
+          </button>
+
+          <button class="current">
+            1
+          </button>
+
+          <button>
+            2
+          </button>
+
+          <button>
+            3
+          </button>
+
+          <button>
+            <i class="bi bi-chevron-right"></i>
+          </button>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ===================================================
+         RIGHT SIDE
+    ==================================================== -->
+
+    <aside>
+
+
+      <!-- SPENDING BREAKDOWN -->
+
+      <section class="side-card">
+
+        <div class="side-header">
+
+          <div>
+
+            <span class="section-label">
+              ANALYTICS
+            </span>
+
+            <h2>Spending</h2>
+
+          </div>
+
+          <button class="small-select">
+            This month
+            <i class="bi bi-chevron-down"></i>
+          </button>
+
+        </div>
+
+
+        <div class="spending-chart">
+
+          <div class="donut">
+
+            <div class="donut-center">
+
+              <strong>₹3.7K</strong>
+
+              <span>Spent</span>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="spending-items">
+
+
+          <div>
+
+            <span class="category-dot bills"></span>
+
+            <span>Bills</span>
+
+            <strong>₹1,200</strong>
+
+          </div>
+
+
+          <div>
+
+            <span class="category-dot shopping"></span>
+
+            <span>Shopping</span>
+
+            <strong>₹2,500</strong>
+
+          </div>
+
+
+        </div>
+
+      </section>
+
+
+      <!-- QUICK FILTER -->
+
+      <section class="side-card">
+
+        <div class="side-header">
+
+          <div>
+
+            <span class="section-label">
+              QUICK FILTER
+            </span>
+
+            <h2>Transaction Type</h2>
+
+          </div>
+
+        </div>
+
+
+        <button class="side-filter">
+
+          <div class="filter-icon green">
+            <i class="bi bi-arrow-down-left"></i>
+          </div>
+
+          <div>
+            <strong>Money In</strong>
+            <span>2 transactions</span>
+          </div>
+
+          <i class="bi bi-chevron-right"></i>
+
+        </button>
+
+
+        <button class="side-filter">
+
+          <div class="filter-icon red">
+            <i class="bi bi-arrow-up-right"></i>
+          </div>
+
+          <div>
+            <strong>Money Out</strong>
+            <span>3 transactions</span>
+          </div>
+
+          <i class="bi bi-chevron-right"></i>
+
+        </button>
+
+
+        <button class="side-filter">
+
+          <div class="filter-icon purple">
+            <i class="bi bi-arrow-left-right"></i>
+          </div>
+
+          <div>
+            <strong>All Transactions</strong>
+            <span>24 transactions</span>
+          </div>
+
+          <i class="bi bi-chevron-right"></i>
+
+        </button>
+
+      </section>
+
+
+    </aside>
+
+  </div>
+
+
+  <!-- =====================================================
+       AI BANNER
+  ====================================================== -->
+
+  <section class="ai-banner">
+
+    <div class="ai-icon">
+
+      <i class="bi bi-stars"></i>
+
+    </div>
+
+
+    <div class="ai-content">
+
+      <span>AI BANKING ASSISTANT</span>
+
+      <h2>
+        Want to find a transaction?
+      </h2>
+
+      <p>
+        Ask "Show my recent transactions" or
+        "How much did I spend this month?"
+      </p>
+
+    </div>
+
+
+    <button class="ask-button">
+
+      Ask AI
+
+      <i class="bi bi-arrow-right"></i>
+
+    </button>
+
+  </section>
+
+</div>

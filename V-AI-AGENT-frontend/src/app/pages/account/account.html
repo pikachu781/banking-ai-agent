@@ -1,0 +1,518 @@
+<div class="account-page">
+
+  <!-- ==========================================
+       TOP HEADER
+  =========================================== -->
+
+  <div class="page-header">
+
+    <div class="header-content">
+
+      <div class="back-label">
+        <i class="bi bi-grid"></i>
+        <span>Banking</span>
+        <i class="bi bi-chevron-right"></i>
+        <span>Account</span>
+      </div>
+
+      <h1>Account Overview</h1>
+
+      <p>
+        Manage and view your personal banking information.
+      </p>
+
+    </div>
+
+    <div class="header-actions">
+
+      <button class="header-button">
+        <i class="bi bi-download"></i>
+        Statement
+      </button>
+
+      <button class="notification-button">
+        <i class="bi bi-bell"></i>
+        <span></span>
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- ==========================================
+       MAIN ACCOUNT HERO
+  =========================================== -->
+
+  <section class="account-hero">
+
+    <div class="hero-glow glow-one"></div>
+    <div class="hero-glow glow-two"></div>
+
+    <div class="hero-top">
+
+      <div class="account-brand">
+
+        <div class="bank-logo">
+          <i class="bi bi-bank2"></i>
+        </div>
+
+        <div>
+          <span>PRIMARY ACCOUNT</span>
+          <h2>{{ account.accountType }}</h2>
+        </div>
+
+      </div>
+
+
+      <div class="active-badge">
+
+        <span class="status-dot"></span>
+
+        {{ account.status }}
+
+      </div>
+
+    </div>
+
+
+    <div class="hero-middle">
+
+      <div>
+
+        <span class="hero-label">
+          AVAILABLE BALANCE
+        </span>
+
+        <div class="hero-balance">
+          {{ account.balance }}
+        </div>
+
+        <div class="balance-note">
+
+          <i class="bi bi-arrow-up-right"></i>
+
+          Your balance is available for transactions
+
+        </div>
+
+      </div>
+
+
+      <div class="card-chip">
+
+        <div class="chip-line"></div>
+        <div class="chip-line"></div>
+        <div class="chip-line"></div>
+
+      </div>
+
+    </div>
+
+
+    <div class="hero-bottom">
+
+      <div>
+
+        <span>ACCOUNT NUMBER</span>
+
+        <strong>{{ account.accountNumber }}</strong>
+
+      </div>
+
+      <div>
+
+        <span>ACCOUNT HOLDER</span>
+
+        <strong>{{ account.name }}</strong>
+
+      </div>
+
+      <div>
+
+        <span>ACCOUNT SINCE</span>
+
+        <strong>{{ account.accountSince }}</strong>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- ==========================================
+       INFORMATION GRID
+  =========================================== -->
+
+  <div class="content-grid">
+
+
+    <!-- ========================================
+         ACCOUNT DETAILS
+    ========================================= -->
+
+    <section class="details-card">
+
+      <div class="section-heading">
+
+        <div>
+
+          <span class="section-label">
+            ACCOUNT INFORMATION
+          </span>
+
+          <h2>Account Details</h2>
+
+        </div>
+
+        <button class="edit-button">
+
+          <i class="bi bi-pencil"></i>
+
+          Edit
+
+        </button>
+
+      </div>
+
+
+      <div class="details-list">
+
+
+        <div class="detail-row">
+
+          <div class="detail-icon purple">
+            <i class="bi bi-person"></i>
+          </div>
+
+          <div class="detail-content">
+
+            <span>Account Holder</span>
+
+            <strong>{{ account.name }}</strong>
+
+          </div>
+
+          <i class="bi bi-check-circle verified"></i>
+
+        </div>
+
+
+        <div class="detail-row">
+
+          <div class="detail-icon blue">
+            <i class="bi bi-credit-card-2-front"></i>
+          </div>
+
+          <div class="detail-content">
+
+            <span>Account Number</span>
+
+            <strong>{{ account.accountNumber }}</strong>
+
+          </div>
+
+          <button class="copy-button">
+            <i class="bi bi-copy"></i>
+          </button>
+
+        </div>
+
+
+        <div class="detail-row">
+
+          <div class="detail-icon green">
+            <i class="bi bi-building"></i>
+          </div>
+
+          <div class="detail-content">
+
+            <span>Branch</span>
+
+            <strong>{{ account.branch }}</strong>
+
+          </div>
+
+        </div>
+
+
+        <div class="detail-row">
+
+          <div class="detail-icon orange">
+            <i class="bi bi-shield-check"></i>
+          </div>
+
+          <div class="detail-content">
+
+            <span>IFSC Code</span>
+
+            <strong>{{ account.ifsc }}</strong>
+
+          </div>
+
+          <button class="copy-button">
+            <i class="bi bi-copy"></i>
+          </button>
+
+        </div>
+
+
+      </div>
+
+    </section>
+
+
+    <!-- ========================================
+         ACCOUNT HEALTH
+    ========================================= -->
+
+    <section class="health-card">
+
+      <div class="section-heading">
+
+        <div>
+
+          <span class="section-label">
+            SECURITY
+          </span>
+
+          <h2>Account Health</h2>
+
+        </div>
+
+        <div class="shield-icon">
+
+          <i class="bi bi-shield-check"></i>
+
+        </div>
+
+      </div>
+
+
+      <div class="health-score">
+
+        <div class="score-ring">
+
+          <div>
+
+            <strong>100</strong>
+
+            <span>%</span>
+
+          </div>
+
+        </div>
+
+
+        <div class="score-content">
+
+          <strong>Everything looks good</strong>
+
+          <p>
+            Your account is secure and active.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="security-item">
+
+        <div class="security-icon">
+          <i class="bi bi-check-lg"></i>
+        </div>
+
+        <div>
+          <strong>Account Status</strong>
+          <span>Active and operational</span>
+        </div>
+
+      </div>
+
+
+      <div class="security-item">
+
+        <div class="security-icon">
+          <i class="bi bi-lock"></i>
+        </div>
+
+        <div>
+          <strong>Login Security</strong>
+          <span>Protected with secure authentication</span>
+        </div>
+
+      </div>
+
+
+      <button class="security-button">
+
+        Security Settings
+
+        <i class="bi bi-arrow-up-right"></i>
+
+      </button>
+
+    </section>
+
+  </div>
+
+
+  <!-- ==========================================
+       QUICK ACTIONS
+  =========================================== -->
+
+  <section class="quick-section">
+
+    <div class="section-heading">
+
+      <div>
+
+        <span class="section-label">
+          ACCOUNT TOOLS
+        </span>
+
+        <h2>Quick Actions</h2>
+
+      </div>
+
+      <span class="small-description">
+        Manage your account
+      </span>
+
+    </div>
+
+
+    <div class="action-grid">
+
+
+      <div class="action-card">
+
+        <div class="action-icon purple">
+          <i class="bi bi-file-earmark-text"></i>
+        </div>
+
+        <div class="action-content">
+
+          <h3>Account Statement</h3>
+
+          <p>
+            View and download your statement
+          </p>
+
+        </div>
+
+        <i class="bi bi-arrow-up-right action-arrow"></i>
+
+      </div>
+
+
+      <div class="action-card">
+
+        <div class="action-icon blue">
+          <i class="bi bi-person-vcard"></i>
+        </div>
+
+        <div class="action-content">
+
+          <h3>Personal Details</h3>
+
+          <p>
+            Update your profile information
+          </p>
+
+        </div>
+
+        <i class="bi bi-arrow-up-right action-arrow"></i>
+
+      </div>
+
+
+      <div class="action-card">
+
+        <div class="action-icon green">
+          <i class="bi bi-shield-lock"></i>
+        </div>
+
+        <div class="action-content">
+
+          <h3>Security</h3>
+
+          <p>
+            Manage passwords and security
+          </p>
+
+        </div>
+
+        <i class="bi bi-arrow-up-right action-arrow"></i>
+
+      </div>
+
+
+      <div class="action-card">
+
+        <div class="action-icon orange">
+          <i class="bi bi-headset"></i>
+        </div>
+
+        <div class="action-content">
+
+          <h3>Get Support</h3>
+
+          <p>
+            Contact our banking support
+          </p>
+
+        </div>
+
+        <i class="bi bi-arrow-up-right action-arrow"></i>
+
+      </div>
+
+
+    </div>
+
+  </section>
+
+
+  <!-- ==========================================
+       AI ASSISTANT
+  ========================================= -->
+
+  <section class="ai-assistant">
+
+    <div class="ai-orb">
+
+      <i class="bi bi-stars"></i>
+
+    </div>
+
+
+    <div class="ai-content">
+
+      <span>AI BANKING ASSISTANT</span>
+
+      <h2>
+        Ask anything about your account
+      </h2>
+
+      <p>
+        Try saying "Show my account details" or
+        "Is my account active?"
+      </p>
+
+    </div>
+
+
+    <button class="ask-ai">
+
+      Ask AI
+
+      <i class="bi bi-arrow-right"></i>
+
+    </button>
+
+  </section>
+
+</div>

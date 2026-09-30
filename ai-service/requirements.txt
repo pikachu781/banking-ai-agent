@@ -1,0 +1,20 @@
+ 
+
+venv\Scripts\activate
+uvicorn app.main:app --reload --port 8000
+
+
+ollama pull nomic-embed-text
+
+pip install chromadb
+
+fastapi
+uvicorn
+sqlalchemy
+pymysql
+pydantic
+pydantic-settings
+python-dotenv
+httpx
+chromadb
+ollama

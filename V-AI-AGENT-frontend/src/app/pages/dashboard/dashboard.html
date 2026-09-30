@@ -1,0 +1,356 @@
+<div class="dashboard-page">
+
+  <!-- =========================
+       TOP HEADER
+  ========================== -->
+  <div class="dashboard-header">
+
+    <div>
+      <div class="welcome-text">Good afternoon 👋</div>
+
+      <h1>Welcome back!</h1>
+
+      <p>
+        Here's your financial overview for today.
+      </p>
+    </div>
+
+    <div class="header-actions">
+
+      <button class="icon-button">
+        <i class="bi bi-bell"></i>
+        <span class="notification-dot"></span>
+      </button>
+
+      <div class="profile-mini">
+        <div class="profile-avatar">
+          N
+        </div>
+
+        <div>
+          <strong>Niranjana</strong>
+          <small>Premium Customer</small>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================
+       MAIN BALANCE SECTION
+  ========================== -->
+  <div class="main-grid">
+
+    <!-- Balance Card -->
+    <div class="balance-card">
+
+      <div class="balance-top">
+
+        <div>
+          <span class="card-label">TOTAL BALANCE</span>
+
+          <h2>
+            ₹{{ balance | number }}
+          </h2>
+
+          <span class="balance-change">
+            <i class="bi bi-arrow-up"></i>
+            8.4% this month
+          </span>
+        </div>
+
+        <div class="bank-icon">
+          <i class="bi bi-wallet2"></i>
+        </div>
+
+      </div>
+
+
+      <div class="account-number">
+
+        <span>PRIMARY ACCOUNT</span>
+
+        <strong>•••• •••• 6789</strong>
+
+      </div>
+
+
+      <div class="balance-footer">
+
+        <div>
+          <small>ACCOUNT TYPE</small>
+          <strong>Savings Account</strong>
+        </div>
+
+        <div>
+          <small>IFSC</small>
+          <strong>DEMO0001234</strong>
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- Spending Card -->
+    <div class="spending-card">
+
+      <div class="card-heading">
+
+        <div>
+          <span>MONTHLY SPENDING</span>
+          <h3>₹8,700</h3>
+        </div>
+
+        <div class="spending-icon">
+          <i class="bi bi-bar-chart"></i>
+        </div>
+
+      </div>
+
+
+      <div class="progress-area">
+
+        <div class="progress-line">
+          <div class="progress-fill"></div>
+        </div>
+
+        <div class="progress-info">
+          <span>₹8,700 spent</span>
+          <span>₹15,000 limit</span>
+        </div>
+
+      </div>
+
+
+      <div class="spending-bottom">
+
+        <div>
+          <i class="bi bi-arrow-down-circle"></i>
+          <span>18% lower than last month</span>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================
+       QUICK ACTIONS
+  ========================== -->
+  <section class="section">
+
+    <div class="section-header">
+
+      <div>
+        <span class="section-kicker">SHORTCUTS</span>
+        <h2>Quick Actions</h2>
+      </div>
+
+      <span class="section-description">
+        Manage your banking faster
+      </span>
+
+    </div>
+
+
+    <div class="quick-grid">
+
+      @for (action of quickActions; track action.title) {
+
+        <div class="quick-card">
+
+          <div class="quick-icon">
+            <i class="bi {{ action.icon }}"></i>
+          </div>
+
+          <div class="quick-content">
+            <h3>{{ action.title }}</h3>
+            <p>{{ action.subtitle }}</p>
+          </div>
+
+          <i class="bi bi-arrow-up-right arrow-icon"></i>
+
+        </div>
+
+      }
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       LOWER SECTION
+  ========================== -->
+  <div class="lower-grid">
+
+
+    <!-- Recent Transactions -->
+    <section class="transactions-card">
+
+      <div class="section-header">
+
+        <div>
+          <span class="section-kicker">ACTIVITY</span>
+          <h2>Recent Transactions</h2>
+        </div>
+
+        <button class="view-button">
+          View all
+          <i class="bi bi-arrow-right"></i>
+        </button>
+
+      </div>
+
+
+      <div class="transaction-list">
+
+        @for (transaction of recentTransactions; track transaction.title) {
+
+          <div class="transaction-row">
+
+            <div class="transaction-icon"
+                 [class.credit]="transaction.type === 'credit'"
+                 [class.debit]="transaction.type === 'debit'">
+
+              <i class="bi {{ transaction.icon }}"></i>
+
+            </div>
+
+
+            <div class="transaction-info">
+
+              <strong>{{ transaction.title }}</strong>
+
+              <span>{{ transaction.date }}</span>
+
+            </div>
+
+
+            <div class="transaction-amount"
+                 [class.credit-text]="transaction.type === 'credit'"
+                 [class.debit-text]="transaction.type === 'debit'">
+
+              {{ transaction.amount }}
+
+            </div>
+
+          </div>
+
+        }
+
+      </div>
+
+    </section>
+
+
+    <!-- Financial Overview -->
+    <section class="overview-card">
+
+      <div class="section-header">
+
+        <div>
+          <span class="section-kicker">YOUR MONEY</span>
+          <h2>Financial Overview</h2>
+        </div>
+
+      </div>
+
+
+      <div class="overview-item">
+
+        <div class="overview-icon purple">
+          <i class="bi bi-piggy-bank"></i>
+        </div>
+
+        <div>
+          <span>Fixed Deposit</span>
+          <strong>₹1,00,000</strong>
+        </div>
+
+        <i class="bi bi-chevron-right"></i>
+
+      </div>
+
+
+      <div class="overview-item">
+
+        <div class="overview-icon blue">
+          <i class="bi bi-bank"></i>
+        </div>
+
+        <div>
+          <span>Loan Outstanding</span>
+          <strong>₹5,00,000</strong>
+        </div>
+
+        <i class="bi bi-chevron-right"></i>
+
+      </div>
+
+
+      <div class="overview-item">
+
+        <div class="overview-icon green">
+          <i class="bi bi-credit-card"></i>
+        </div>
+
+        <div>
+          <span>Debit Card</span>
+          <strong>Active •••• 1234</strong>
+        </div>
+
+        <i class="bi bi-chevron-right"></i>
+
+      </div>
+
+
+    </section>
+
+  </div>
+
+
+  <!-- =========================
+       AI ASSISTANT BANNER
+  ========================== -->
+  <div class="ai-banner">
+
+    <div class="ai-left">
+
+      <div class="ai-icon">
+        <i class="bi bi-stars"></i>
+      </div>
+
+      <div>
+
+        <span>AI BANKING ASSISTANT</span>
+
+        <h2>
+          Need help with your banking?
+        </h2>
+
+        <p>
+          Ask about your balance, transactions, loans, cards and more.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <button class="ai-button">
+
+      Ask AI
+
+      <i class="bi bi-arrow-up-right"></i>
+
+    </button>
+
+  </div>
+
+</div>

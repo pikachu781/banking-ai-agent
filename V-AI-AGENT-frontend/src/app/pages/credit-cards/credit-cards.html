@@ -1,0 +1,322 @@
+<div class="credit-page">
+
+  <!-- HEADER -->
+  <div class="page-header">
+
+    <div>
+      <div class="breadcrumb">
+        <span>Home</span>
+        <i class="bi bi-chevron-right"></i>
+        <span>Credit Cards</span>
+      </div>
+
+      <h1>Credit Cards</h1>
+
+      <p>
+        Manage your credit card, rewards and payments.
+      </p>
+    </div>
+
+    <button class="notification-btn">
+      <i class="bi bi-bell"></i>
+      <span></span>
+    </button>
+
+  </div>
+
+
+  <!-- MAIN GRID -->
+  <div class="credit-grid">
+
+    <!-- LEFT -->
+    <div class="main-column">
+
+      <!-- CREDIT CARD -->
+      <section class="credit-card-section">
+
+        <div class="section-header">
+
+          <div>
+            <span class="eyebrow">PREMIUM CARD</span>
+            <h2>Platinum Credit Card</h2>
+          </div>
+
+          <div class="status">
+            <span></span>
+            Active
+          </div>
+
+        </div>
+
+
+        <!-- CARD -->
+        <div class="premium-card">
+
+          <div class="card-pattern"></div>
+
+          <div class="card-top">
+
+            <div class="platinum-chip">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+
+            <div class="contactless">
+              <i class="bi bi-wifi"></i>
+            </div>
+
+          </div>
+
+
+          <div class="card-type">
+            {{ creditCard.type }}
+          </div>
+
+
+          <div class="card-number">
+            {{ creditCard.number }}
+          </div>
+
+
+          <div class="card-bottom">
+
+            <div class="holder">
+              <span>CARD HOLDER</span>
+              <strong>{{ creditCard.holder }}</strong>
+            </div>
+
+            <div class="expiry">
+              <span>VALID THRU</span>
+              <strong>{{ creditCard.expiry }}</strong>
+            </div>
+
+            <div class="master-logo">
+              <div></div>
+              <div></div>
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- LIMIT -->
+        <div class="limit-box">
+
+          <div class="limit-heading">
+
+            <div>
+              <span>AVAILABLE CREDIT</span>
+              <strong>{{ creditCard.availableLimit }}</strong>
+            </div>
+
+            <div class="limit-total">
+              <span>TOTAL LIMIT</span>
+              <strong>{{ creditCard.totalLimit }}</strong>
+            </div>
+
+          </div>
+
+
+          <div class="credit-progress">
+            <div class="credit-progress-fill"></div>
+          </div>
+
+
+          <div class="limit-footer">
+            <span>₹18,750 used</span>
+            <span>90.6% available</span>
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- BENEFITS -->
+      <section class="benefits-section">
+
+        <div class="section-title">
+          <div>
+            <span class="eyebrow">CARD BENEFITS</span>
+            <h2>Your Rewards</h2>
+          </div>
+        </div>
+
+
+        <div class="benefits-grid">
+
+          @for (benefit of benefits; track benefit.title) {
+
+            <div class="benefit-card">
+
+              <div class="benefit-icon">
+                <i class="bi {{ benefit.icon }}"></i>
+              </div>
+
+              <div class="benefit-info">
+                <span>{{ benefit.title }}</span>
+                <strong>{{ benefit.value }}</strong>
+                <small>{{ benefit.description }}</small>
+              </div>
+
+            </div>
+
+          }
+
+        </div>
+
+      </section>
+
+
+      <!-- RECENT TRANSACTIONS -->
+      <section class="transactions-section">
+
+        <div class="section-title">
+
+          <div>
+            <span class="eyebrow">CREDIT ACTIVITY</span>
+            <h2>Recent Transactions</h2>
+          </div>
+
+          <button class="view-button">
+            View all
+            <i class="bi bi-arrow-up-right"></i>
+          </button>
+
+        </div>
+
+
+        <div class="transaction-list">
+
+          @for (transaction of transactions; track transaction.merchant) {
+
+            <div class="transaction-row">
+
+              <div class="transaction-icon">
+                <i class="bi {{ transaction.icon }}"></i>
+              </div>
+
+              <div class="transaction-info">
+                <strong>{{ transaction.merchant }}</strong>
+                <span>
+                  {{ transaction.category }} · {{ transaction.date }}
+                </span>
+              </div>
+
+              <strong class="transaction-amount">
+                ₹{{ transaction.amount.replace('₹', '') }}
+              </strong>
+
+              <i class="bi bi-three-dots-vertical more"></i>
+
+            </div>
+
+          }
+
+        </div>
+
+      </section>
+
+    </div>
+
+
+    <!-- RIGHT SIDEBAR -->
+    <div class="side-column">
+
+      <!-- PAYMENT CARD -->
+      <div class="payment-card">
+
+        <div class="payment-icon">
+          <i class="bi bi-calendar-check"></i>
+        </div>
+
+        <span class="eyebrow">NEXT PAYMENT</span>
+
+        <h3>₹4,850</h3>
+
+        <p>
+          Due on 05 October 2026
+        </p>
+
+        <div class="payment-divider"></div>
+
+        <div class="payment-detail">
+          <span>Minimum Due</span>
+          <strong>₹1,200</strong>
+        </div>
+
+        <button class="pay-button">
+          Pay Now
+          <i class="bi bi-arrow-right"></i>
+        </button>
+
+      </div>
+
+
+      <!-- QUICK ACTIONS -->
+      <div class="quick-card">
+
+        <span class="eyebrow">MANAGE CARD</span>
+        <h3>Quick Actions</h3>
+
+        <div class="quick-list">
+
+          @for (action of actions; track action.title) {
+
+            <button class="quick-action">
+
+              <div class="quick-icon">
+                <i class="bi {{ action.icon }}"></i>
+              </div>
+
+              <div>
+                <strong>{{ action.title }}</strong>
+                <span>{{ action.subtitle }}</span>
+              </div>
+
+              <i class="bi bi-chevron-right arrow"></i>
+
+            </button>
+
+          }
+
+        </div>
+
+      </div>
+
+
+      <!-- AI -->
+      <div class="ai-card">
+
+        <div class="ai-orb"></div>
+
+        <div class="ai-icon">
+          <i class="bi bi-stars"></i>
+        </div>
+
+        <span class="ai-label">
+          AI BANKING ASSISTANT
+        </span>
+
+        <h3>
+          Understand your credit better.
+        </h3>
+
+        <p>
+          Ask about payments, rewards, limits or your credit card.
+        </p>
+
+        <button class="ai-button">
+          Ask AI Assistant
+          <i class="bi bi-arrow-up-right"></i>
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

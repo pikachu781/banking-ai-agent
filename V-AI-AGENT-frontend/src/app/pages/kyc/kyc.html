@@ -1,0 +1,295 @@
+<div class="kyc-page">
+
+  <!-- HEADER -->
+  <div class="page-header">
+    <div>
+      <div class="breadcrumb-text">
+        Banking <span>/</span> KYC Verification
+      </div>
+
+      <h1>KYC Verification</h1>
+
+      <p>
+        Manage your identity verification and submitted documents.
+      </p>
+    </div>
+
+    <div class="header-actions">
+      <button class="icon-btn">
+        <i class="bi bi-bell"></i>
+      </button>
+
+      <button class="profile-btn">
+        <span>NB</span>
+        <i class="bi bi-chevron-down"></i>
+      </button>
+    </div>
+  </div>
+
+
+  <!-- KYC STATUS HERO -->
+  <section class="status-hero">
+
+    <div class="status-left">
+
+      <div class="status-icon">
+        <i class="bi bi-shield-check"></i>
+      </div>
+
+      <div>
+        <div class="status-label">
+          KYC STATUS
+        </div>
+
+        <h2>Verification Completed</h2>
+
+        <p>
+          Your identity has been successfully verified.
+          You can continue using all banking services.
+        </p>
+
+        <div class="status-meta">
+          <span>
+            <i class="bi bi-check-circle-fill"></i>
+            Verified on {{ kycStatus.verifiedOn }}
+          </span>
+
+          <span>
+            <i class="bi bi-calendar3"></i>
+            Next review {{ kycStatus.nextReview }}
+          </span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="verified-badge">
+      <i class="bi bi-patch-check-fill"></i>
+      Verified
+    </div>
+
+  </section>
+
+
+  <!-- MAIN GRID -->
+  <div class="main-grid">
+
+    <!-- PERSONAL INFORMATION -->
+    <section class="content-card">
+
+      <div class="card-header">
+
+        <div>
+          <h3>Personal Information</h3>
+          <p>Information associated with your KYC profile.</p>
+        </div>
+
+        <button class="outline-btn">
+          <i class="bi bi-pencil"></i>
+          Update
+        </button>
+
+      </div>
+
+      <div class="info-grid">
+
+        <div class="info-item">
+          <span>Full Name</span>
+          <strong>{{ personalInfo.name }}</strong>
+        </div>
+
+        <div class="info-item">
+          <span>Date of Birth</span>
+          <strong>{{ personalInfo.dateOfBirth }}</strong>
+        </div>
+
+        <div class="info-item">
+          <span>Mobile Number</span>
+          <strong>{{ personalInfo.mobile }}</strong>
+        </div>
+
+        <div class="info-item">
+          <span>Email Address</span>
+          <strong>{{ personalInfo.email }}</strong>
+        </div>
+
+        <div class="info-item full">
+          <span>Address</span>
+          <strong>{{ personalInfo.address }}</strong>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- DOCUMENTS -->
+    <section class="content-card">
+
+      <div class="card-header">
+
+        <div>
+          <h3>Verified Documents</h3>
+          <p>Your submitted identity documents.</p>
+        </div>
+
+        <button class="outline-btn">
+          <i class="bi bi-upload"></i>
+          Upload
+        </button>
+
+      </div>
+
+      <div class="documents-list">
+
+        @for (document of documents; track document.title) {
+
+          <div class="document-item">
+
+            <div class="document-icon">
+              <i class="bi {{ document.icon }}"></i>
+            </div>
+
+            <div class="document-info">
+              <h4>{{ document.title }}</h4>
+              <p>{{ document.type }} · {{ document.number }}</p>
+              <small>Verified {{ document.date }}</small>
+            </div>
+
+            <div class="document-status">
+              <i class="bi bi-check-circle-fill"></i>
+              Verified
+            </div>
+
+          </div>
+
+        }
+
+      </div>
+
+    </section>
+
+
+    <!-- VERIFICATION TIMELINE -->
+    <section class="content-card timeline-card">
+
+      <div class="card-header">
+        <div>
+          <h3>Verification Timeline</h3>
+          <p>Track your KYC verification activity.</p>
+        </div>
+      </div>
+
+      <div class="timeline">
+
+        @for (item of timeline; track item.title) {
+
+          <div class="timeline-item">
+
+            <div class="timeline-icon">
+              <i class="bi {{ item.icon }}"></i>
+            </div>
+
+            <div class="timeline-content">
+              <div class="timeline-top">
+                <h4>{{ item.title }}</h4>
+                <span>{{ item.date }}</span>
+              </div>
+
+              <p>{{ item.description }}</p>
+            </div>
+
+          </div>
+
+        }
+
+      </div>
+
+    </section>
+
+
+    <!-- SECURITY -->
+    <section class="content-card security-card">
+
+      <div class="card-header">
+        <div>
+          <h3>Security & Privacy</h3>
+          <p>How we protect your KYC information.</p>
+        </div>
+      </div>
+
+      <div class="security-list">
+
+        @for (item of securityItems; track item.title) {
+
+          <div class="security-item">
+
+            <div class="security-icon">
+              <i class="bi {{ item.icon }}"></i>
+            </div>
+
+            <div>
+              <h4>{{ item.title }}</h4>
+              <p>{{ item.description }}</p>
+            </div>
+
+            <i class="bi bi-check-circle-fill security-check"></i>
+
+          </div>
+
+        }
+
+      </div>
+
+    </section>
+
+  </div>
+
+
+  <!-- UPDATE KYC -->
+  <section class="update-card">
+
+    <div class="update-icon">
+      <i class="bi bi-file-earmark-person"></i>
+    </div>
+
+    <div class="update-content">
+      <h3>Need to update your KYC?</h3>
+      <p>
+        Update your personal information or submit a new document
+        if your details have changed.
+      </p>
+    </div>
+
+    <button class="primary-btn">
+      <i class="bi bi-arrow-right"></i>
+      Update KYC
+    </button>
+
+  </section>
+
+
+  <!-- AI ASSISTANT -->
+  <section class="ai-banner">
+
+    <div class="ai-icon">
+      <i class="bi bi-stars"></i>
+    </div>
+
+    <div class="ai-content">
+      <span>AI BANKING ASSISTANT</span>
+      <h3>Need help with KYC?</h3>
+      <p>
+        Ask your AI assistant about KYC documents,
+        verification status, or banking requirements.
+      </p>
+    </div>
+
+    <button class="ai-btn">
+      Ask AI
+      <i class="bi bi-arrow-up-right"></i>
+    </button>
+
+  </section>
+
+</div>
