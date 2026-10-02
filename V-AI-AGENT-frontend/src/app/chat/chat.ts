@@ -1,3 +1,4 @@
+
 import { CommonModule } from '@angular/common';
 
 import {
@@ -7,9 +8,12 @@ import {
   ViewChild,
   inject
 } from '@angular/core';
+
 import { Router } from '@angular/router';
 
 import { FormsModule } from '@angular/forms';
+
+import { VoiceService } from '../services/voice.service';
 
 import {
   AiService,
@@ -49,8 +53,6 @@ export class ChatComponent {
 
   private aiService = inject(AiService);
 
-  
-
   private authService = inject(AuthService);
 
   private cdr = inject(ChangeDetectorRef);
@@ -58,6 +60,8 @@ export class ChatComponent {
   private router = inject(Router);
 
   private ttsService = inject(TtsService);
+
+  private voiceService = inject(VoiceService);
 
 
   // =====================================================
@@ -84,42 +88,45 @@ export class ChatComponent {
   messages: ChatMessage[] = [];
 
   loading = false;
-// =====================================================
-// FD CALCULATOR
-// =====================================================
-
-showFdCalculator = false;
-
-fdAmount: number | null = null;
-
-fdRate: number | null = null;
-
-fdTenure: number | null = null;
-
-fdTenureUnit: 'years' | 'months' = 'years';
-
-fdCalculating = false;
-
-fdResult: any = null;
 
 
-// ==========================================================
-// EMI CALCULATOR
-// ==========================================================
+  // =====================================================
+  // FD CALCULATOR
+  // =====================================================
 
-showEmiCalculator = false;
+  showFdCalculator = false;
 
-emiAmount: number | null = null;
+  fdAmount: number | null = null;
 
-emiRate: number | null = null;
+  fdRate: number | null = null;
 
-emiTenure: number | null = null;
+  fdTenure: number | null = null;
 
-emiTenureUnit: 'years' | 'months' = 'years';
+  fdTenureUnit: 'years' | 'months' = 'years';
 
-emiCalculating = false;
+  fdCalculating = false;
 
-emiResult: any = null;
+  fdResult: any = null;
+
+
+  // =====================================================
+  // EMI CALCULATOR
+  // =====================================================
+
+  showEmiCalculator = false;
+
+  emiAmount: number | null = null;
+
+  emiRate: number | null = null;
+
+  emiTenure: number | null = null;
+
+  emiTenureUnit: 'years' | 'months' = 'years';
+
+  emiCalculating = false;
+
+  emiResult: any = null;
+
 
   // =====================================================
   // VOICE INPUT
@@ -135,6 +142,9 @@ emiResult: any = null;
   // =====================================================
 
   isSpeaking = false;
+
+  // Current ElevenLabs audio
+  private currentAudio: HTMLAudioElement | null = null;
 
 
   // =====================================================
@@ -244,53 +254,67 @@ emiResult: any = null;
             'Angular received:',
             response
           );
-       // ===============================================
-       // CHECK BACKEND ACTION
-     // ===============================================
 
-     if (response.action === 'OPEN_FD_CALCULATOR') {
 
-  console.log(
-    'Opening manual FD calculator'
-  );
+          // ===============================================
+          // FD CALCULATOR
+          // ===============================================
 
-  this.showFdCalculator = true;
+          if (
+            response.action === 'OPEN_FD_CALCULATOR'
+          ) {
 
-  this.fdResult = null;
+            console.log(
+              'Opening manual FD calculator'
+            );
 
-}
+            this.showFdCalculator = true;
 
-if (response.action === 'OPEN_EMI_CALCULATOR') {
+            this.fdResult = null;
 
-  console.log(
-    'Opening manual EMI calculator'
-  );
+          }
 
-  this.showEmiCalculator = true;
 
-  this.emiResult = null;
+          // ===============================================
+          // EMI CALCULATOR
+          // ===============================================
 
-}
+          if (
+            response.action === 'OPEN_EMI_CALCULATOR'
+          ) {
 
-// ===============================================
-// AI PAGE NAVIGATION
-// ===============================================
+            console.log(
+              'Opening manual EMI calculator'
+            );
 
-if (
-  response.action &&
-  response.action.startsWith('/')
-) {
+            this.showEmiCalculator = true;
 
-  console.log(
-    'AI navigation action:',
-    response.action
-  );
+            this.emiResult = null;
 
-  this.router.navigateByUrl(
-    response.action
-  );
+          }
 
-}
+
+          // ===============================================
+          // AI PAGE NAVIGATION
+          // ===============================================
+
+          if (
+            response.action &&
+            response.action.startsWith('/')
+          ) {
+
+            console.log(
+              'AI navigation action:',
+              response.action
+            );
+
+            this.router.navigateByUrl(
+              response.action
+            );
+
+          }
+
+
           // ===============================================
           // ADD AI MESSAGE
           // ===============================================
@@ -369,211 +393,238 @@ if (
       });
 
   }
-  // =====================================================
-// OPEN FD CALCULATOR
-// =====================================================
 
-openFdCalculator(): void {
-
-  this.showFdCalculator = true;
-
-  this.fdResult = null;
-
-}
-
-
-// =====================================================
-// CLOSE FD CALCULATOR
-// =====================================================
-
-closeFdCalculator(): void {
-
-  this.showFdCalculator = false;
-
-  this.fdResult = null;
-
-}
-
-
-// =====================================================
-// CALCULATE FD
-// =====================================================
-
-calculateFd(): void {
-
-  console.log('========== FD CALCULATION ==========');
 
   // =====================================================
-  // VALIDATION
+  // OPEN FD CALCULATOR
   // =====================================================
 
-  if (
-    this.fdAmount === null ||
-    this.fdRate === null ||
-    this.fdTenure === null
-  ) {
+  openFdCalculator(): void {
 
-    alert(
-      'Please enter amount, interest rate and tenure.'
+    this.showFdCalculator = true;
+
+    this.fdResult = null;
+
+  }
+
+
+  // =====================================================
+  // CLOSE FD CALCULATOR
+  // =====================================================
+
+  closeFdCalculator(): void {
+
+    this.showFdCalculator = false;
+
+    this.fdResult = null;
+
+  }
+
+
+  // =====================================================
+  // CALCULATE FD
+  // =====================================================
+
+  calculateFd(): void {
+
+    console.log(
+      '========== FD CALCULATION =========='
     );
 
-    return;
-  }
 
+    // =====================================================
+    // VALIDATION
+    // =====================================================
 
-  if (
-    this.fdAmount <= 0 ||
-    this.fdRate <= 0 ||
-    this.fdTenure <= 0
-  ) {
-
-    alert(
-      'Please enter valid positive values.'
-    );
-
-    return;
-  }
-
-
-  // =====================================================
-  // CONVERT TENURE TO YEARS
-  // =====================================================
-
-  let years = this.fdTenure;
-
-  if (this.fdTenureUnit === 'months') {
-
-    years = this.fdTenure / 12;
-
-  }
-
-
-  // =====================================================
-  // START CALCULATION
-  // =====================================================
-
-  this.fdCalculating = true;
-
-  this.fdResult = null;
-
-  this.cdr.detectChanges();
-
-
-  console.log('Sending FD data to backend...');
-
-  console.log({
-    principal: this.fdAmount,
-    rate: this.fdRate,
-    years: years
-  });
-
-
-  // =====================================================
-  // CALL BACKEND
-  // =====================================================
-
-  this.aiService.calculateFd({
-
-    principal: this.fdAmount,
-
-    rate: this.fdRate,
-
-    years: years
-
-  }).subscribe({
-
-    // ===================================================
-    // SUCCESS
-    // ===================================================
-
-    next: (result) => {
-
-      console.log(
-        'FD backend result:',
-        result
-      );
-
-
-      this.fdResult = {
-
-        principal: result.principal,
-
-        rate: result.rate,
-
-        years: result.years,
-
-        interest: result.interest,
-
-        maturityAmount:
-          result.maturity_amount
-
-      };
-
-
-      this.fdCalculating = false;
-
-      this.cdr.detectChanges();
-
-
-      console.log(
-        'FD calculation completed successfully'
-      );
-
-    },
-
-
-    // ===================================================
-    // ERROR
-    // ===================================================
-
-    error: (error) => {
-
-      console.error(
-        'FD calculation error:',
-        error
-      );
-
-
-      this.fdCalculating = false;
-
-      this.fdResult = null;
-
-      this.cdr.detectChanges();
-
+    if (
+      this.fdAmount === null ||
+      this.fdRate === null ||
+      this.fdTenure === null
+    ) {
 
       alert(
-        'Unable to calculate FD. Please try again.'
+        'Please enter amount, interest rate and tenure.'
       );
+
+      return;
 
     }
 
-  });
 
-}
-// =====================================================
-// RESET FD CALCULATOR
-// =====================================================
+    if (
+      this.fdAmount <= 0 ||
+      this.fdRate <= 0 ||
+      this.fdTenure <= 0
+    ) {
 
-resetFdCalculator(): void {
+      alert(
+        'Please enter valid positive values.'
+      );
 
-  console.log('========== FD RESET ==========');
+      return;
 
-  this.fdAmount = null;
-  this.fdRate = null;
-  this.fdTenure = null;
-  this.fdTenureUnit = 'years';
+    }
 
-  // Remove previous calculation result
-  this.fdResult = null;
 
-  // Force UI update
-  this.cdr.detectChanges();
+    // =====================================================
+    // CONVERT TENURE TO YEARS
+    // =====================================================
 
-  console.log('FD calculator reset successfully');
-}
+    let years = this.fdTenure;
+
+    if (
+      this.fdTenureUnit === 'months'
+    ) {
+
+      years = this.fdTenure / 12;
+
+    }
+
+
+    // =====================================================
+    // START CALCULATION
+    // =====================================================
+
+    this.fdCalculating = true;
+
+    this.fdResult = null;
+
+    this.cdr.detectChanges();
+
+
+    console.log(
+      'Sending FD data to backend...'
+    );
+
+    console.log({
+
+      principal: this.fdAmount,
+
+      rate: this.fdRate,
+
+      years: years
+
+    });
+
+
+    // =====================================================
+    // CALL BACKEND
+    // =====================================================
+
+    this.aiService.calculateFd({
+
+      principal: this.fdAmount,
+
+      rate: this.fdRate,
+
+      years: years
+
+    }).subscribe({
+
+      // ===================================================
+      // SUCCESS
+      // ===================================================
+
+      next: (result) => {
+
+        console.log(
+          'FD backend result:',
+          result
+        );
+
+
+        this.fdResult = {
+
+          principal: result.principal,
+
+          rate: result.rate,
+
+          years: result.years,
+
+          interest: result.interest,
+
+          maturityAmount:
+            result.maturity_amount
+
+        };
+
+
+        this.fdCalculating = false;
+
+        this.cdr.detectChanges();
+
+
+        console.log(
+          'FD calculation completed successfully'
+        );
+
+      },
+
+
+      // ===================================================
+      // ERROR
+      // ===================================================
+
+      error: (error) => {
+
+        console.error(
+          'FD calculation error:',
+          error
+        );
+
+
+        this.fdCalculating = false;
+
+        this.fdResult = null;
+
+        this.cdr.detectChanges();
+
+
+        alert(
+          'Unable to calculate FD. Please try again.'
+        );
+
+      }
+
+    });
+
+  }
+
 
   // =====================================================
-  // TEXT TO SPEECH
+  // RESET FD CALCULATOR
+  // =====================================================
+
+  resetFdCalculator(): void {
+
+    console.log(
+      '========== FD RESET =========='
+    );
+
+
+    this.fdAmount = null;
+
+    this.fdRate = null;
+
+    this.fdTenure = null;
+
+    this.fdTenureUnit = 'years';
+
+    this.fdResult = null;
+
+
+    this.cdr.detectChanges();
+
+
+    console.log(
+      'FD calculator reset successfully'
+    );
+
+  }
+
+
+  // =====================================================
+  // TEXT TO SPEECH - ELEVENLABS
   // =====================================================
 
   speakResponse(text: string): void {
@@ -583,44 +634,127 @@ resetFdCalculator(): void {
     }
 
 
-    // Stop previous speech
+    // Stop previous audio
+    this.stopSpeaking();
 
-    this.ttsService.stop();
-
-
-    // Update UI
 
     this.isSpeaking = true;
 
     this.cdr.detectChanges();
 
 
-    // Start speech
+    // ===================================================
+    // CALL ELEVENLABS
+    // ===================================================
 
-    this.ttsService.speak(text);
+    this.voiceService
+      .speak(text)
+      .subscribe({
+
+        // ===============================================
+        // AUDIO SUCCESS
+        // ===============================================
+
+        next: (audioBlob) => {
+
+          const audioUrl =
+            URL.createObjectURL(audioBlob);
 
 
-    /*
-     * Estimate speech duration.
-     *
-     * Browser SpeechSynthesis does not provide
-     * a reliable Angular-friendly completion event.
-     */
-
-    const estimatedTime =
-      Math.max(
-        2000,
-        text.length * 55
-      );
+          this.currentAudio =
+            new Audio(audioUrl);
 
 
-    setTimeout(() => {
+          // =============================================
+          // AUDIO ENDED
+          // =============================================
 
-      this.isSpeaking = false;
+          this.currentAudio.onended =
+            () => {
 
-      this.cdr.detectChanges();
+              this.isSpeaking = false;
 
-    }, estimatedTime);
+              URL.revokeObjectURL(
+                audioUrl
+              );
+
+              this.currentAudio = null;
+
+              this.cdr.detectChanges();
+
+            };
+
+
+          // =============================================
+          // AUDIO ERROR
+          // =============================================
+
+          this.currentAudio.onerror =
+            () => {
+
+              console.error(
+                'ElevenLabs audio playback failed'
+              );
+
+              this.isSpeaking = false;
+
+              URL.revokeObjectURL(
+                audioUrl
+              );
+
+              this.currentAudio = null;
+
+              this.cdr.detectChanges();
+
+            };
+
+
+          // =============================================
+          // PLAY AUDIO
+          // =============================================
+
+          this.currentAudio
+            .play()
+            .catch(error => {
+
+              console.error(
+                'ElevenLabs playback error:',
+                error
+              );
+
+              this.isSpeaking = false;
+
+              URL.revokeObjectURL(
+                audioUrl
+              );
+
+              this.currentAudio = null;
+
+              this.cdr.detectChanges();
+
+            });
+
+        },
+
+
+        // ===============================================
+        // ELEVENLABS ERROR
+        // ===============================================
+
+        error: (error) => {
+
+          console.error(
+            'ElevenLabs voice error:',
+            error
+          );
+
+          this.isSpeaking = false;
+
+          this.cdr.detectChanges();
+
+        }
+
+      });
 
   }
 
@@ -644,7 +778,21 @@ resetFdCalculator(): void {
 
   stopSpeaking(): void {
 
+    // Stop old browser TTS
     this.ttsService.stop();
+
+
+    // Stop ElevenLabs audio
+    if (this.currentAudio) {
+
+      this.currentAudio.pause();
+
+      this.currentAudio.currentTime = 0;
+
+      this.currentAudio = null;
+
+    }
+
 
     this.isSpeaking = false;
 
@@ -675,6 +823,7 @@ resetFdCalculator(): void {
       );
 
       return;
+
     }
 
 
@@ -687,6 +836,7 @@ resetFdCalculator(): void {
       this.stopVoiceInput();
 
       return;
+
     }
 
 
@@ -748,9 +898,7 @@ resetFdCalculator(): void {
         this.message = transcript;
 
 
-        // IMPORTANT:
-        // SpeechRecognition is a browser API.
-        // Force Angular UI update.
+        // Force Angular UI update
 
         this.cdr.detectChanges();
 
@@ -773,8 +921,6 @@ resetFdCalculator(): void {
         this.isListening = false;
 
 
-        // IMPORTANT
-
         this.cdr.detectChanges();
 
       };
@@ -782,7 +928,7 @@ resetFdCalculator(): void {
 
     // ===================================================
     // SPEECH END
-    // =====================================================
+    // ===================================================
 
     this.recognition.onend =
       () => {
@@ -791,8 +937,6 @@ resetFdCalculator(): void {
 
         this.recognition = null;
 
-
-        // IMPORTANT
 
         this.cdr.detectChanges();
 
@@ -817,7 +961,6 @@ resetFdCalculator(): void {
 
 
     this.isListening = false;
-
 
     this.cdr.detectChanges();
 
@@ -868,156 +1011,220 @@ resetFdCalculator(): void {
     }, 100);
 
   }
-  // ==========================================================
-// CALCULATE EMI
-// ==========================================================
 
-calculateEmi(): void {
 
-  console.log('========== EMI CALCULATION ==========');
+  // =====================================================
+  // CALCULATE EMI
+  // =====================================================
 
-  if (
-    this.emiAmount === null ||
-    this.emiRate === null ||
-    this.emiTenure === null
-  ) {
+  calculateEmi(): void {
 
-    alert(
-      'Please enter loan amount, interest rate and tenure.'
+    console.log(
+      '========== EMI CALCULATION =========='
     );
 
-    return;
-  }
 
-  if (
-    this.emiAmount <= 0 ||
-    this.emiRate <= 0 ||
-    this.emiTenure <= 0
-  ) {
+    // ===================================================
+    // VALIDATION
+    // ===================================================
 
-    alert(
-      'Please enter valid positive values.'
-    );
-
-    return;
-  }
-
-  let years = this.emiTenure;
-
-  if (this.emiTenureUnit === 'months') {
-
-    years = this.emiTenure / 12;
-
-  }
-
-  this.emiCalculating = true;
-
-  this.emiResult = null;
-
-  this.cdr.detectChanges();
-
-  console.log('Sending EMI data to backend...');
-
-  console.log({
-    principal: this.emiAmount,
-    annual_rate: this.emiRate,
-    years: years
-  });
-
-  this.aiService.calculateEmi({
-
-    principal: this.emiAmount,
-
-    annual_rate: this.emiRate,
-
-    years: years
-
-  }).subscribe({
-
-    next: (result) => {
-
-      console.log(
-        'EMI backend result:',
-        result
-      );
-
-      this.emiResult = {
-
-        principal: result.principal,
-
-        annualRate: result.annual_rate,
-
-        years: result.years,
-
-        months: result.months,
-
-        emi: result.emi,
-
-        totalInterest:
-          result.total_interest,
-
-        totalPayment:
-          result.total_payment
-
-      };
-
-      this.emiCalculating = false;
-
-      this.cdr.detectChanges();
-
-      console.log(
-        'EMI calculation completed successfully'
-      );
-
-    },
-
-    error: (error) => {
-
-      console.error(
-        'EMI calculation error:',
-        error
-      );
-
-      this.emiCalculating = false;
-
-      this.emiResult = null;
-
-      this.cdr.detectChanges();
+    if (
+      this.emiAmount === null ||
+      this.emiRate === null ||
+      this.emiTenure === null
+    ) {
 
       alert(
-        'Unable to calculate EMI. Please try again.'
+        'Please enter loan amount, interest rate and tenure.'
       );
+
+      return;
 
     }
 
-  });
+
+    if (
+      this.emiAmount <= 0 ||
+      this.emiRate <= 0 ||
+      this.emiTenure <= 0
+    ) {
+
+      alert(
+        'Please enter valid positive values.'
+      );
+
+      return;
+
+    }
+
+
+    // ===================================================
+    // CONVERT TENURE TO YEARS
+    // ===================================================
+
+    let years = this.emiTenure;
+
+    if (
+      this.emiTenureUnit === 'months'
+    ) {
+
+      years =
+        this.emiTenure / 12;
+
+    }
+
+
+    // ===================================================
+    // START CALCULATION
+    // ===================================================
+
+    this.emiCalculating = true;
+
+    this.emiResult = null;
+
+    this.cdr.detectChanges();
+
+
+    console.log(
+      'Sending EMI data to backend...'
+    );
+
+
+    console.log({
+
+      principal: this.emiAmount,
+
+      annual_rate: this.emiRate,
+
+      years: years
+
+    });
+
+
+    // ===================================================
+    // CALL BACKEND
+    // ===================================================
+
+    this.aiService.calculateEmi({
+
+      principal: this.emiAmount,
+
+      annual_rate: this.emiRate,
+
+      years: years
+
+    }).subscribe({
+
+      // =================================================
+      // SUCCESS
+      // =================================================
+
+      next: (result) => {
+
+        console.log(
+          'EMI backend result:',
+          result
+        );
+
+
+        this.emiResult = {
+
+          principal:
+            result.principal,
+
+          annualRate:
+            result.annual_rate,
+
+          years:
+            result.years,
+
+          months:
+            result.months,
+
+          emi:
+            result.emi,
+
+          totalInterest:
+            result.total_interest,
+
+          totalPayment:
+            result.total_payment
+
+        };
+
+
+        this.emiCalculating = false;
+
+        this.cdr.detectChanges();
+
+
+        console.log(
+          'EMI calculation completed successfully'
+        );
+
+      },
+
+
+      // =================================================
+      // ERROR
+      // =================================================
+
+      error: (error) => {
+
+        console.error(
+          'EMI calculation error:',
+          error
+        );
+
+
+        this.emiCalculating = false;
+
+        this.emiResult = null;
+
+        this.cdr.detectChanges();
+
+
+        alert(
+          'Unable to calculate EMI. Please try again.'
+        );
+
+      }
+
+    });
+
+  }
+
+
+  // =====================================================
+  // RESET EMI CALCULATOR
+  // =====================================================
+
+  resetEmiCalculator(): void {
+
+    console.log(
+      '========== EMI RESET =========='
+    );
+
+
+    this.emiAmount = null;
+
+    this.emiRate = null;
+
+    this.emiTenure = null;
+
+    this.emiTenureUnit = 'years';
+
+    this.emiResult = null;
+
+
+    this.cdr.detectChanges();
+
+
+    console.log(
+      'EMI calculator reset successfully'
+    );
+
+  }
 
 }
-// ==========================================================
-// RESET EMI CALCULATOR
-// ==========================================================
 
-resetEmiCalculator(): void {
-
-  console.log('========== EMI RESET ==========');
-
-  this.emiAmount = null;
-
-  this.emiRate = null;
-
-  this.emiTenure = null;
-
-  this.emiTenureUnit = 'years';
-
-  this.emiResult = null;
-
-  this.cdr.detectChanges();
-
-  console.log(
-    'EMI calculator reset successfully'
-  );
-
-}
- 
-
-}

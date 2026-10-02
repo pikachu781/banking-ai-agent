@@ -1,3 +1,5 @@
+<app-cyber-bg />
+
 <div class="register-page">
 
   <div class="register-card">
@@ -9,87 +11,34 @@
 
     <form (ngSubmit)="register()">
 
-      <!-- Username -->
       <div class="form-group">
         <label for="username">Username</label>
-
-        <input
-          id="username"
-          type="text"
-          name="username"
-          class="form-control"
-          [(ngModel)]="username"
-          placeholder="Enter your username"
-          autocomplete="username"
-        />
+        <input id="username" type="text" name="username" class="form-control"
+          [(ngModel)]="username" placeholder="Enter your username" autocomplete="username" />
       </div>
 
-      <!-- Email -->
       <div class="form-group">
         <label for="email">Email Address</label>
-
-        <input
-          id="email"
-          type="email"
-          name="email"
-          class="form-control"
-          [(ngModel)]="email"
-          placeholder="Enter your email"
-          autocomplete="email"
-        />
+        <input id="email" type="email" name="email" class="form-control"
+          [(ngModel)]="email" placeholder="Enter your email" autocomplete="email" />
       </div>
 
-      <!-- Password -->
       <div class="form-group">
         <label for="password">Password</label>
-
-        <input
-          id="password"
-          type="password"
-          name="password"
-          class="form-control"
-          [(ngModel)]="password"
-          placeholder="Enter your password"
-          autocomplete="new-password"
-        />
+        <input id="password" type="password" name="password" class="form-control"
+          [(ngModel)]="password" placeholder="Enter your password" autocomplete="new-password" />
       </div>
 
-      <!-- Confirm Password -->
       <div class="form-group">
         <label for="confirmPassword">Confirm Password</label>
-
-        <input
-          id="confirmPassword"
-          type="password"
-          name="confirmPassword"
-          class="form-control"
-          [(ngModel)]="confirmPassword"
-          placeholder="Confirm your password"
-          autocomplete="new-password"
-        />
+        <input id="confirmPassword" type="password" name="confirmPassword" class="form-control"
+          [(ngModel)]="confirmPassword" placeholder="Confirm your password" autocomplete="new-password" />
       </div>
 
-      <!-- Error -->
-      <div
-        *ngIf="errorMessage"
-        class="alert alert-danger"
-      >
-        {{ errorMessage }}
-      </div>
+      <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+      <div *ngIf="successMessage" class="alert alert-success">{{ successMessage }}</div>
 
-      <!-- Success -->
-      <div
-        *ngIf="successMessage"
-        class="alert alert-success"
-      >
-        {{ successMessage }}
-      </div>
-
-      <button
-        type="submit"
-        class="register-btn"
-        [disabled]="loading"
-      >
+      <button type="submit" class="register-btn" [disabled]="loading">
         {{ loading ? 'Creating Account...' : 'Create Account' }}
       </button>
 

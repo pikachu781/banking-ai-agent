@@ -8,6 +8,7 @@ from app.api.routes.health import router as health_router
 from app.api.routes.memory import router as memory_router
 from app.api.routes.emi import router as emi_router
 from app.api.routes.whatsapp import router as whatsapp_router
+from app.api.routes.voice import router as voice_router
 
 # Create database tables
 Base.metadata.create_all(bind=engine)
@@ -44,4 +45,8 @@ app.include_router(
 )
 app.include_router(
     whatsapp_router
+)
+app.include_router(
+    voice_router,
+    prefix="/api/voice"
 )

@@ -1,46 +1,60 @@
-<div class="chat-page">
+<div class="ai-page">
 
-  <div class="chat-card">
+  <!-- BACKGROUND 3D SYSTEM -->
+  <div class="scene-background">
+    <div class="grid-floor"></div>
 
+    <div class="orbital-particle particle-1"></div>
+    <div class="orbital-particle particle-2"></div>
+    <div class="orbital-particle particle-3"></div>
+    <div class="orbital-particle particle-4"></div>
+    <div class="orbital-particle particle-5"></div>
+    <div class="orbital-particle particle-6"></div>
+  </div>
+
+
+  <!-- MAIN AI WINDOW -->
+  <div class="ai-window">
 
     <!-- ================================================= -->
     <!-- HEADER -->
     <!-- ================================================= -->
 
-    <div class="chat-header">
+    <header class="ai-header">
 
-      <div class="header-left">
+      <div class="brand-area">
 
-        <div class="ai-avatar">
-          <span>🤖</span>
+        <!-- 3D AI CORE -->
+        <div class="ai-core-small">
 
-          <div class="avatar-glow"></div>
+          <div class="core-energy"></div>
+
+          <div class="core-ring ring-a"></div>
+          <div class="core-ring ring-b"></div>
+          <div class="core-ring ring-c"></div>
+
+          <div class="core-center">
+            <span>AI</span>
+          </div>
+
         </div>
 
 
-        <div class="ai-info">
+        <div class="brand-info">
 
-          <div class="ai-title-row">
+          <div class="brand-title">
+            <h2>AI Banking Assistant</h2>
 
-            <h4>
-              Voice AI Assistant
-            </h4>
-
-            <span class="verified-badge">
-              ✓ AI
+            <span class="live-badge">
+              <span></span>
+              LIVE
             </span>
-
           </div>
 
+          <div class="brand-status">
+            <span class="status-light"></span>
 
-          <div class="online-status">
-
-            <span class="online-dot"></span>
-
-            <span>
-              Online • Ready to help
-            </span>
-
+            Neural Banking Intelligence
           </div>
 
         </div>
@@ -48,117 +62,178 @@
       </div>
 
 
-      <div class="header-right">
+      <!-- AI SYSTEM STATUS -->
 
-        <div class="rag-badge">
+      <div class="system-status">
 
-          <span class="rag-icon">
-            ✦
-          </span>
+        <div class="system-chip">
+          <span class="chip-icon">✦</span>
+          <span>RAG</span>
+          <small>ON</small>
+        </div>
 
-          RAG AI
+        <div class="system-chip">
+          <span class="chip-icon">🧠</span>
+          <span>Memory</span>
+          <small>ON</small>
+        </div>
 
+        <div class="system-chip">
+          <span class="chip-icon">🎤</span>
+          <span>Voice</span>
+          <small>ON</small>
         </div>
 
 
         <button
           *ngIf="isSpeaking"
           type="button"
-          class="stop-speech-button"
+          class="stop-ai-button"
           (click)="stopSpeaking()"
-          title="Stop AI voice"
         >
-
-          ⏹
-
+          <span>■</span>
+          Stop AI
         </button>
 
       </div>
 
-    </div>
-
+    </header>
 
 
     <!-- ================================================= -->
     <!-- CHAT BODY -->
     <!-- ================================================= -->
 
-    <div
+    <main
       #chatContainer
-      class="chat-container"
+      class="ai-chat-body"
     >
 
 
-      <!-- ================================================= -->
-      <!-- EMPTY STATE -->
-      <!-- ================================================= -->
+      <!-- =============================================== -->
+      <!-- EMPTY / WELCOME -->
+      <!-- =============================================== -->
 
-      <div
+      <section
         *ngIf="messages.length === 0"
-        class="empty-state"
+        class="ai-welcome"
       >
 
-        <div class="welcome-orbit">
+        <!-- LARGE 3D AI CORE -->
 
-          <div class="welcome-icon">
-            🤖
+        <div class="hero-ai-core">
+
+          <div class="hero-ring hero-ring-1"></div>
+          <div class="hero-ring hero-ring-2"></div>
+          <div class="hero-ring hero-ring-3"></div>
+
+          <div class="energy-orbit orbit-1"></div>
+          <div class="energy-orbit orbit-2"></div>
+
+          <div class="core-glow"></div>
+
+          <div class="hero-core">
+
+            <div class="core-face">
+              <span class="eye eye-left"></span>
+              <span class="eye eye-right"></span>
+
+              <span class="core-mouth"></span>
+            </div>
+
+            <div class="core-label">
+              AI
+            </div>
+
           </div>
 
-          <div class="orbit orbit-one"></div>
 
-          <div class="orbit orbit-two"></div>
+          <!-- FLOATING DATA NODES -->
 
-        </div>
+          <div class="data-node node-1">
+            <span>₹</span>
+          </div>
 
+          <div class="data-node node-2">
+            <span>⌁</span>
+          </div>
 
-        <h2>
-          How can I help you?
-        </h2>
+          <div class="data-node node-3">
+            <span>✦</span>
+          </div>
 
-
-        <p>
-          Talk to your AI assistant using your voice
-          or type your message below.
-        </p>
-
-
-        <div class="capability-row">
-
-          <span>
-            🎤 Voice
-          </span>
-
-          <span>
-            🧠 Memory
-          </span>
-
-          <span>
-            ✦ RAG
-          </span>
+          <div class="data-node node-4">
+            <span>◈</span>
+          </div>
 
         </div>
 
 
-        <!-- SUGGESTIONS -->
+        <div class="welcome-content">
 
-        <div class="suggestions">
+          <div class="welcome-eyebrow">
+            <span></span>
+            NEURAL BANKING SYSTEM
+            <span></span>
+          </div>
+
+          <h1>
+            Your money.
+            <strong>Your intelligence.</strong>
+          </h1>
+
+          <p>
+            Ask about your balance, transactions, cards, loans,
+            fixed deposits or anything else.
+          </p>
+
+
+          <div class="capability-pills">
+
+            <div>
+              <span>◉</span>
+              Banking Data
+            </div>
+
+            <div>
+              <span>✦</span>
+              RAG Intelligence
+            </div>
+
+            <div>
+              <span>🧠</span>
+              Personal Memory
+            </div>
+
+            <div>
+              <span>🎙</span>
+              Voice AI
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- QUICK COMMANDS -->
+
+        <div class="quick-commands">
 
           <button
             type="button"
             (click)="message = 'What am I learning recently?'"
           >
 
-            <span class="suggestion-icon">
-              📚
-            </span>
+            <div class="quick-icon blue">
+              <span>◈</span>
+            </div>
 
-            <span>
-              What am I learning recently?
-            </span>
+            <div>
+              <strong>Personal Memory</strong>
+              <small>What am I learning recently?</small>
+            </div>
 
-            <span class="arrow">
-              →
-            </span>
+            <span class="quick-arrow">↗</span>
 
           </button>
 
@@ -168,17 +243,16 @@
             (click)="message = 'What technologies do I know?'"
           >
 
-            <span class="suggestion-icon">
-              💻
-            </span>
+            <div class="quick-icon purple">
+              <span>&lt;/&gt;</span>
+            </div>
 
-            <span>
-              What technologies do I know?
-            </span>
+            <div>
+              <strong>Knowledge</strong>
+              <small>What technologies do I know?</small>
+            </div>
 
-            <span class="arrow">
-              →
-            </span>
+            <span class="quick-arrow">↗</span>
 
           </button>
 
@@ -188,29 +262,28 @@
             (click)="message = 'What are my current goals?'"
           >
 
-            <span class="suggestion-icon">
-              🎯
-            </span>
+            <div class="quick-icon green">
+              <span>◎</span>
+            </div>
 
-            <span>
-              What are my current goals?
-            </span>
+            <div>
+              <strong>Goals</strong>
+              <small>What are my current goals?</small>
+            </div>
 
-            <span class="arrow">
-              →
-            </span>
+            <span class="quick-arrow">↗</span>
 
           </button>
 
         </div>
 
-      </div>
+      </section>
 
 
 
-      <!-- ================================================= -->
+      <!-- =============================================== -->
       <!-- MESSAGES -->
-      <!-- ================================================= -->
+      <!-- =============================================== -->
 
       <div
         *ngFor="let msg of messages"
@@ -219,37 +292,39 @@
         [class.ai-row]="msg.role === 'assistant'"
       >
 
-
-        <!-- AI AVATAR -->
-
+        <!-- AI -->
         <div
           *ngIf="msg.role === 'assistant'"
-          class="message-avatar ai-message-avatar"
+          class="message-ai-core"
         >
 
-          🤖
+          <div class="mini-core-ring"></div>
+
+          <span>AI</span>
 
         </div>
 
 
-        <!-- MESSAGE CONTENT -->
-
+        <!-- MESSAGE -->
         <div
           class="message-content"
           [class.user-content]="msg.role === 'user'"
           [class.ai-content]="msg.role === 'assistant'"
         >
 
-
-          <div class="message-label">
+          <div class="message-meta">
 
             <span *ngIf="msg.role === 'assistant'">
-              AI Assistant
+              AI CORE
             </span>
 
             <span *ngIf="msg.role === 'user'">
-              You
+              YOU
             </span>
+
+            <small>
+              • SECURE
+            </small>
 
           </div>
 
@@ -265,7 +340,7 @@
           </div>
 
 
-          <!-- AI ACTIONS -->
+          <!-- AI ACTION -->
 
           <div
             *ngIf="msg.role === 'assistant'"
@@ -275,11 +350,9 @@
             <button
               type="button"
               (click)="speakMessage(msg.content)"
-              title="Speak this message"
+              title="Play AI response"
             >
-
               🔊
-
             </button>
 
           </div>
@@ -287,604 +360,490 @@
         </div>
 
 
-        <!-- USER AVATAR -->
-
+        <!-- USER -->
         <div
           *ngIf="msg.role === 'user'"
-          class="message-avatar user-message-avatar"
+          class="user-avatar"
         >
-
-          👤
-
+          YOU
         </div>
 
       </div>
 
 
 
-      <!-- ================================================= -->
-      <!-- TYPING -->
-      <!-- ================================================= -->
+      <!-- =============================================== -->
+      <!-- AI THINKING -->
+      <!-- =============================================== -->
 
       <div
         *ngIf="loading"
-        class="message-row ai-row"
+        class="thinking-row"
       >
 
-        <div class="message-avatar ai-message-avatar">
-          🤖
-        </div>
+        <div class="thinking-core">
 
+          <div class="thinking-ring"></div>
 
-        <div class="typing-content">
-
-          <div class="message-label">
-            AI Assistant
-          </div>
-
-
-          <div class="typing-bubble">
-
-            <span></span>
-            <span></span>
-            <span></span>
-
-            <small>
-              Thinking...
-            </small>
-
-          </div>
+          <span>AI</span>
 
         </div>
 
-      </div>
+
+        <div class="thinking-panel">
+
+          <div class="thinking-header">
+
+            <span class="thinking-pulse"></span>
+
+            AI PROCESSING
+
+          </div>
 
 
-
-      <!-- ================================================= -->
-      <!-- LISTENING -->
-      <!-- ================================================= -->
-       <!-- ================================================= -->
-<!-- FD CALCULATOR -->
-<!-- ================================================= -->
-
-<div
-  *ngIf="showFdCalculator"
-  class="fd-calculator-panel"
->
-
-  <!-- HEADER -->
-
-  <div class="fd-calculator-header">
-
-    <div>
-      <h3>
-        🏦 FD Calculator
-      </h3>
-
-      <p>
-        Calculate your Fixed Deposit maturity amount
-      </p>
-    </div>
-
-    <button
-      type="button"
-      class="fd-close-button"
-      (click)="closeFdCalculator()"
-      title="Close calculator"
-    >
-      ✕
-    </button>
-
-  </div>
+          <div class="thinking-text">
+            <span>Analyzing your request</span>
+            <span class="thinking-dots">
+              <i></i>
+              <i></i>
+              <i></i>
+            </span>
+          </div>
 
 
-  <!-- FORM -->
+          <div class="neural-line">
+            <span></span>
+          </div>
 
-  <div class="fd-calculator-form">
-
-    <!-- AMOUNT -->
-
-    <div class="fd-form-group">
-
-      <label>
-        Investment Amount
-      </label>
-
-      <div class="fd-input-wrapper">
-
-        <span>
-          ₹
-        </span>
-
-        <input
-          type="number"
-          [(ngModel)]="fdAmount"
-          placeholder="Enter amount"
-          min="1"
-        />
+        </div>
 
       </div>
 
-    </div>
 
 
-    <!-- RATE -->
+      <!-- =============================================== -->
+      <!-- FD CALCULATOR -->
+      <!-- =============================================== -->
 
-    <div class="fd-form-group">
+      <div
+        *ngIf="showFdCalculator"
+        class="calculator-panel fd-panel"
+      >
 
-      <label>
-        Interest Rate (%)
-      </label>
+        <div class="calculator-header">
 
-      <div class="fd-input-wrapper">
+          <div class="calculator-title">
 
-        <span>
-          %
-        </span>
+            <div class="calculator-icon">
+              ₹
+            </div>
 
-        <input
-          type="number"
-          [(ngModel)]="fdRate"
-          placeholder="Example: 7"
-          min="0"
-          step="0.01"
-        />
+            <div>
+              <h3>Fixed Deposit</h3>
+              <p>Neural FD calculation engine</p>
+            </div>
 
-      </div>
+          </div>
 
-    </div>
+          <button
+            type="button"
+            class="calculator-close"
+            (click)="closeFdCalculator()"
+          >
+            ×
+          </button>
+
+        </div>
 
 
-    <!-- TENURE -->
+        <div class="calculator-grid">
 
-    <div class="fd-form-group">
+          <div class="calc-field">
 
-      <label>
-        Tenure
-      </label>
+            <label>Investment Amount</label>
 
-      <div class="fd-tenure-row">
+            <div class="calc-input">
 
-        <input
-          type="number"
-          [(ngModel)]="fdTenure"
-          placeholder="Example: 2"
-          min="1"
-          step="0.1"
-        />
+              <span>₹</span>
 
-        <select
-          [(ngModel)]="fdTenureUnit"
+              <input
+                type="number"
+                [(ngModel)]="fdAmount"
+                placeholder="100000"
+                min="1"
+              />
+
+            </div>
+
+          </div>
+
+
+          <div class="calc-field">
+
+            <label>Interest Rate</label>
+
+            <div class="calc-input">
+
+              <span>%</span>
+
+              <input
+                type="number"
+                [(ngModel)]="fdRate"
+                placeholder="7"
+                min="0"
+                step="0.01"
+              />
+
+            </div>
+
+          </div>
+
+
+          <div class="calc-field full-field">
+
+            <label>Tenure</label>
+
+            <div class="tenure-input">
+
+              <input
+                type="number"
+                [(ngModel)]="fdTenure"
+                placeholder="2"
+                min="1"
+                step="0.1"
+              />
+
+              <select [(ngModel)]="fdTenureUnit">
+
+                <option value="years">
+                  Years
+                </option>
+
+                <option value="months">
+                  Months
+                </option>
+
+              </select>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="calculator-buttons">
+
+          <button
+            type="button"
+            class="primary-calc-button"
+            (click)="calculateFd()"
+            [disabled]="fdCalculating"
+          >
+
+            {{ fdCalculating ? 'Calculating...' : 'Calculate FD' }}
+
+          </button>
+
+
+          <button
+            type="button"
+            class="secondary-calc-button"
+            (click)="resetFdCalculator()"
+          >
+            Reset
+          </button>
+
+        </div>
+
+
+        <div
+          *ngIf="fdResult"
+          class="calculation-result"
         >
 
-          <option value="years">
-            Years
-          </option>
+          <div class="result-title">
+            <span>✓</span>
+            Calculation Complete
+          </div>
 
-          <option value="months">
-            Months
-          </option>
+          <div class="result-main">
 
-        </select>
+            <small>Maturity Amount</small>
+
+            <strong>
+              ₹{{ fdResult.maturityAmount | number:'1.2-2' }}
+            </strong>
+
+          </div>
+
+
+          <div class="result-stats">
+
+            <div>
+              <span>Principal</span>
+              <strong>
+                ₹{{ fdResult.principal | number:'1.2-2' }}
+              </strong>
+            </div>
+
+            <div>
+              <span>Interest</span>
+              <strong>
+                ₹{{ fdResult.interest | number:'1.2-2' }}
+              </strong>
+            </div>
+
+            <div>
+              <span>Rate</span>
+              <strong>
+                {{ fdResult.rate }}%
+              </strong>
+            </div>
+
+            <div>
+              <span>Tenure</span>
+              <strong>
+                {{ fdResult.years }} years
+              </strong>
+            </div>
+
+          </div>
+
+        </div>
 
       </div>
 
-    </div>
 
 
-    <!-- BUTTONS -->
+      <!-- =============================================== -->
+      <!-- EMI CALCULATOR -->
+      <!-- =============================================== -->
 
-    <div class="fd-button-row">
-
-      <button
-        type="button"
-        class="fd-calculate-button"
-        (click)="calculateFd()"
-        [disabled]="fdCalculating"
+      <div
+        *ngIf="showEmiCalculator"
+        class="calculator-panel emi-panel"
       >
 
-        <span *ngIf="!fdCalculating">
-          Calculate FD
-        </span>
+        <div class="calculator-header">
 
-        <span *ngIf="fdCalculating">
-          Calculating...
-        </span>
+          <div class="calculator-title">
 
-      </button>
+            <div class="calculator-icon emi-icon">
+              EMI
+            </div>
 
+            <div>
+              <h3>Loan EMI</h3>
+              <p>Intelligent monthly payment calculator</p>
+            </div>
 
-      <button
-        type="button"
-        class="fd-reset-button"
-        (click)="resetFdCalculator()"
-      >
+          </div>
 
-        Reset
+          <button
+            type="button"
+            class="calculator-close"
+            (click)="showEmiCalculator = false"
+          >
+            ×
+          </button>
 
-      </button>
-
-    </div>
-
-  </div>
-
-
-  <!-- RESULT -->
-
-  <div
-    *ngIf="fdResult"
-    class="fd-result"
-  >
-
-    <div class="fd-result-title">
-      ✅ FD Calculation Result
-    </div>
+        </div>
 
 
-    <div class="fd-result-grid">
+        <div class="calculator-grid">
 
-      <div class="fd-result-item">
+          <div class="calc-field">
 
-        <span>
-          Principal
-        </span>
+            <label>Loan Amount</label>
 
-        <strong>
-          ₹{{ fdResult.principal | number:'1.2-2' }}
-        </strong>
+            <div class="calc-input">
+
+              <span>₹</span>
+
+              <input
+                type="number"
+                [(ngModel)]="emiAmount"
+                placeholder="500000"
+                min="1"
+              />
+
+            </div>
+
+          </div>
+
+
+          <div class="calc-field">
+
+            <label>Interest Rate</label>
+
+            <div class="calc-input">
+
+              <span>%</span>
+
+              <input
+                type="number"
+                [(ngModel)]="emiRate"
+                placeholder="8.5"
+                min="0.01"
+                step="0.01"
+              />
+
+            </div>
+
+          </div>
+
+
+          <div class="calc-field full-field">
+
+            <label>Loan Tenure</label>
+
+            <div class="tenure-input">
+
+              <input
+                type="number"
+                [(ngModel)]="emiTenure"
+                placeholder="5"
+                min="1"
+              />
+
+              <select [(ngModel)]="emiTenureUnit">
+
+                <option value="years">
+                  Years
+                </option>
+
+                <option value="months">
+                  Months
+                </option>
+
+              </select>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="calculator-buttons">
+
+          <button
+            type="button"
+            class="primary-calc-button"
+            (click)="calculateEmi()"
+            [disabled]="emiCalculating"
+          >
+
+            {{ emiCalculating ? 'Calculating...' : 'Calculate EMI' }}
+
+          </button>
+
+
+          <button
+            type="button"
+            class="secondary-calc-button"
+            (click)="resetEmiCalculator()"
+          >
+            Reset
+          </button>
+
+        </div>
+
+
+        <div
+          *ngIf="emiResult"
+          class="calculation-result"
+        >
+
+          <div class="result-title">
+            <span>✓</span>
+            EMI Calculation Complete
+          </div>
+
+
+          <div class="result-main">
+
+            <small>Monthly EMI</small>
+
+            <strong>
+              ₹{{ emiResult.emi | number:'1.2-2' }}
+            </strong>
+
+          </div>
+
+
+          <div class="result-stats">
+
+            <div>
+              <span>Loan</span>
+              <strong>
+                ₹{{ emiResult.principal | number:'1.2-2' }}
+              </strong>
+            </div>
+
+            <div>
+              <span>Total Interest</span>
+              <strong>
+                ₹{{ emiResult.totalInterest | number:'1.2-2' }}
+              </strong>
+            </div>
+
+            <div>
+              <span>Rate</span>
+              <strong>
+                {{ emiResult.annualRate }}%
+              </strong>
+            </div>
+
+            <div>
+              <span>Total Payment</span>
+              <strong>
+                ₹{{ emiResult.totalPayment | number:'1.2-2' }}
+              </strong>
+            </div>
+
+          </div>
+
+        </div>
 
       </div>
 
 
-      <div class="fd-result-item">
 
-        <span>
-          Interest Rate
-        </span>
-
-        <strong>
-          {{ fdResult.rate }}%
-        </strong>
-
-      </div>
-
-
-      <div class="fd-result-item">
-
-        <span>
-          Tenure
-        </span>
-
-        <strong>
-          {{ fdResult.years }} years
-        </strong>
-
-      </div>
-
-
-      <div class="fd-result-item">
-
-        <span>
-          Interest Earned
-        </span>
-
-        <strong>
-          ₹{{ fdResult.interest | number:'1.2-2' }}
-        </strong>
-
-      </div>
-
-    </div>
-
-
-    <div class="fd-maturity">
-
-      <span>
-        Maturity Amount
-      </span>
-
-      <strong>
-        ₹{{ fdResult.maturityAmount | number:'1.2-2' }}
-      </strong>
-
-    </div>
-
-  </div>
-
-</div>
-
-
-
-
-
-<!-- ============================================================
-     EMI CALCULATOR
-============================================================ -->
-
-<div
-  *ngIf="showEmiCalculator"
-  class="emi-calculator-panel"
->
-
-  <div class="emi-header">
-
-    <div>
-      <h3>💰 EMI Calculator</h3>
-
-      <p>
-        Calculate your monthly loan EMI
-      </p>
-    </div>
-
-    <button
-      type="button"
-      class="emi-close-btn"
-      (click)="showEmiCalculator = false"
-    >
-      ✕
-    </button>
-
-  </div>
-
-
-  <!-- ========================================================
-       LOAN AMOUNT
-  ========================================================= -->
-
-  <div class="emi-form-group">
-
-    <label>
-      Loan Amount
-    </label>
-
-    <input
-      type="number"
-      [(ngModel)]="emiAmount"
-      placeholder="Enter loan amount"
-      min="1"
-    />
-
-  </div>
-
-
-  <!-- ========================================================
-       INTEREST RATE
-  ========================================================= -->
-
-  <div class="emi-form-group">
-
-    <label>
-      Interest Rate (% per year)
-    </label>
-
-    <input
-      type="number"
-      [(ngModel)]="emiRate"
-      placeholder="Example: 8.5"
-      min="0.01"
-      step="0.01"
-    />
-
-  </div>
-
-
-  <!-- ========================================================
-       TENURE
-  ========================================================= -->
-
-  <div class="emi-form-group">
-
-    <label>
-      Loan Tenure
-    </label>
-
-    <div class="emi-tenure-row">
-
-      <input
-        type="number"
-        [(ngModel)]="emiTenure"
-        placeholder="Enter tenure"
-        min="1"
-      />
-
-      <select
-        [(ngModel)]="emiTenureUnit"
-      >
-
-        <option value="years">
-          Years
-        </option>
-
-        <option value="months">
-          Months
-        </option>
-
-      </select>
-
-    </div>
-
-  </div>
-
-
-  <!-- ========================================================
-       BUTTONS
-  ========================================================= -->
-
-  <div class="emi-buttons">
-
-    <button
-      type="button"
-      class="emi-calculate-btn"
-      (click)="calculateEmi()"
-      [disabled]="emiCalculating"
-    >
-
-      <span *ngIf="!emiCalculating">
-        Calculate EMI
-      </span>
-
-      <span *ngIf="emiCalculating">
-        Calculating...
-      </span>
-
-    </button>
-
-
-    <button
-      type="button"
-      class="emi-reset-btn"
-      (click)="resetEmiCalculator()"
-    >
-      Reset
-    </button>
-
-  </div>
-
-
-  <!-- ========================================================
-       RESULT
-  ========================================================= -->
-
-  <div
-    *ngIf="emiResult"
-    class="emi-result"
-  >
-
-    <div class="emi-result-title">
-      ✅ EMI Calculation Result
-    </div>
-
-
-    <div class="emi-result-grid">
-
-      <div class="emi-result-item">
-
-        <span>
-          Loan Amount
-        </span>
-
-        <strong>
-          ₹{{ emiResult.principal | number:'1.2-2' }}
-        </strong>
-
-      </div>
-
-
-      <div class="emi-result-item">
-
-        <span>
-          Interest Rate
-        </span>
-
-        <strong>
-          {{ emiResult.annualRate }}%
-        </strong>
-
-      </div>
-
-
-      <div class="emi-result-item">
-
-        <span>
-          Tenure
-        </span>
-
-        <strong>
-          {{ emiResult.years }} years
-        </strong>
-
-      </div>
-
-
-      <div class="emi-result-item">
-
-        <span>
-          Total Interest
-        </span>
-
-        <strong>
-          ₹{{ emiResult.totalInterest | number:'1.2-2' }}
-        </strong>
-
-      </div>
-
-    </div>
-
-
-    <!-- ======================================================
-         MONTHLY EMI
-    ====================================================== -->
-
-    <div class="emi-monthly">
-
-      <span>
-        Monthly EMI
-      </span>
-
-      <strong>
-        ₹{{ emiResult.emi | number:'1.2-2' }}
-      </strong>
-
-    </div>
-
-
-    <!-- ======================================================
-         TOTAL PAYMENT
-    ====================================================== -->
-
-    <div class="emi-total">
-
-      <span>
-        Total Payment
-      </span>
-
-      <strong>
-        ₹{{ emiResult.totalPayment | number:'1.2-2' }}
-      </strong>
-
-    </div>
-
-  </div>
-
-</div>
-
-
+      <!-- =============================================== -->
+      <!-- LISTENING -->
+      <!-- =============================================== -->
 
       <div
         *ngIf="isListening"
-        class="listening-panel"
+        class="voice-listening"
       >
 
-        <div class="sound-wave">
+        <div class="voice-orb">
 
           <span></span>
           <span></span>
           <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
+
+          <strong>MIC</strong>
 
         </div>
 
 
         <div>
 
-          <strong>
-            Listening
-          </strong>
+          <strong>Listening...</strong>
 
           <small>
-            Speak naturally...
+            Speak naturally. I'm listening.
           </small>
 
         </div>
 
       </div>
 
-
-    </div>
+    </main>
 
 
 
@@ -892,29 +851,35 @@
     <!-- FOOTER -->
     <!-- ================================================= -->
 
-    <div class="chat-footer">
+    <footer class="ai-footer">
 
 
-      <!-- SPEAKING STATUS -->
+      <!-- SPEAKING -->
 
       <div
         *ngIf="isSpeaking"
-        class="speaking-status"
+        class="speaking-bar"
       >
 
-        <span class="speaking-icon">
-          🔊
-        </span>
+        <div class="speaking-wave">
 
-        AI is speaking...
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+
+        </div>
+
+        <span>
+          AI is speaking
+        </span>
 
         <button
           type="button"
           (click)="stopSpeaking()"
         >
-
           Stop
-
         </button>
 
       </div>
@@ -923,86 +888,82 @@
 
       <!-- INPUT -->
 
-      <div class="input-wrapper">
+      <div class="input-area">
+
+        <div class="input-glow"></div>
 
 
-        <div class="input-box">
-
-          <textarea
-            [(ngModel)]="message"
-            (keydown.enter)="onEnter($event)"
-            rows="1"
-            class="message-input"
-            placeholder="Ask your AI assistant..."
-          ></textarea>
+        <textarea
+          [(ngModel)]="message"
+          (keydown.enter)="onEnter($event)"
+          rows="1"
+          class="ai-input"
+          placeholder="Ask your banking AI..."
+        ></textarea>
 
 
-          <!-- MIC -->
+        <!-- MIC -->
 
-          <button
-            type="button"
-            class="input-button mic-button"
-            [class.listening]="isListening"
-            (click)="startVoiceInput()"
-            [title]="isListening ? 'Stop listening' : 'Voice input'"
-          >
+        <button
+          type="button"
+          class="voice-button"
+          [class.listening]="isListening"
+          (click)="startVoiceInput()"
+          [title]="isListening ? 'Stop listening' : 'Voice input'"
+        >
 
-            <span *ngIf="!isListening">
-              🎤
-            </span>
+          <span *ngIf="!isListening">
+            🎙
+          </span>
 
-            <span *ngIf="isListening">
-              ⏹
-            </span>
+          <span *ngIf="isListening">
+            ■
+          </span>
 
-          </button>
+        </button>
 
 
-          <!-- SEND -->
+        <!-- SEND -->
 
-          <button
-            type="button"
-            class="send-button"
-            (click)="sendMessage()"
-            [disabled]="!message.trim() || loading"
-            title="Send message"
-          >
+        <button
+          type="button"
+          class="send-button"
+          (click)="sendMessage()"
+          [disabled]="!message.trim() || loading"
+        >
 
-            <span>
-              ➤
-            </span>
+          <span>↑</span>
 
-          </button>
-
-        </div>
+        </button>
 
       </div>
 
 
+      <!-- SECURITY -->
 
-      <!-- FOOTER INFO -->
-
-      <div class="footer-info">
+      <div class="footer-status">
 
         <span>
-          🔒 Your conversation is protected
+          <i></i>
+          End-to-end protected
         </span>
 
         <span>
-          🎤 Voice enabled
+          ◈ RAG Active
         </span>
 
         <span>
-          🧠 Memory enabled
+          🧠 Memory Active
+        </span>
+
+        <span>
+          🎙 Voice Active
         </span>
 
       </div>
 
-    </div>
+    </footer>
 
   </div>
 
 </div>
-
-
- 

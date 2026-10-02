@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { CyberBgComponent } from '../background/cyber-bg.component';
 import {
   AuthService,
   RegisterRequest
@@ -11,7 +12,8 @@ import {
   standalone: true,
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+     CyberBgComponent
   ],
   templateUrl: './register.html',
   styleUrl: './register.css'

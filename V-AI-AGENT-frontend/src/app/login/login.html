@@ -1,110 +1,326 @@
-<div class="login-page">
+<main class="scene" [class.speaking]="speaking()">
 
-  <div class="login-card">
+  <!-- ============ 3D ENVIRONMENT ============ -->
+  <div class="world" aria-hidden="true">
 
-    <div class="login-header">
+    <div class="layer bg" style="--d: -2"></div>
+    <div class="layer rays" style="--d: -4"></div>
 
-      <div class="logo">
-        🤖
-      </div>
-
-      <h1>Voice AI Agent</h1>
-
-      <p>Sign in to your account</p>
-
+    <div class="layer structures" style="--d: -7">
+      <i class="slab s1"></i>
+      <i class="slab s2"></i>
+      <i class="slab s3"></i>
+      <i class="slab s4"></i>
+      <i class="slab s5"></i>
+      <i class="monolith m1"></i>
+      <i class="monolith m2"></i>
+      <i class="monolith m3"></i>
     </div>
 
-    <form
-      [formGroup]="loginForm"
-      (ngSubmit)="login()"
-    >
+    <svg class="layer neural" style="--d: -9" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice">
+      <g stroke="rgba(61,232,255,.4)" stroke-width=".6" fill="none">
+        <path d="M60 120 L190 60 L320 140 L250 260 L60 120 M190 60 L250 260 M320 140 L470 90 L560 200 L320 140 M250 260 L400 330 L560 200 M400 330 L470 90"/>
+        <path d="M620 480 L740 420 L860 500 L800 580 L620 480 M740 420 L800 580 M860 500 L950 380 L740 420"/>
+      </g>
+      <g fill="#8ff3ff">
+        <circle class="node" cx="60" cy="120" r="2.5"/>
+        <circle class="node" cx="190" cy="60" r="2.5"/>
+        <circle class="node" cx="320" cy="140" r="2.5"/>
+        <circle class="node" cx="250" cy="260" r="2.5"/>
+        <circle class="node" cx="470" cy="90" r="2.5"/>
+        <circle class="node" cx="560" cy="200" r="2.5"/>
+        <circle class="node" cx="400" cy="330" r="2.5"/>
+        <circle class="node" cx="620" cy="480" r="2.5"/>
+        <circle class="node" cx="740" cy="420" r="2.5"/>
+        <circle class="node" cx="860" cy="500" r="2.5"/>
+        <circle class="node" cx="800" cy="580" r="2.5"/>
+        <circle class="node" cx="950" cy="380" r="2.5"/>
+      </g>
+    </svg>
 
-      <!-- Email -->
-      <div class="form-group">
-
-        <label for="email">
-          Email
-        </label>
-
-        <input
-          id="email"
-          type="email"
-          formControlName="email"
-          placeholder="Enter your email"
-        />
-
-        <small
-          class="error"
-          *ngIf="
-            loginForm.get('email')?.touched &&
-            loginForm.get('email')?.invalid
-          "
-        >
-          Please enter a valid email.
-        </small>
-
-      </div>
-
-
-      <!-- Password -->
-      <div class="form-group">
-
-        <label for="password">
-          Password
-        </label>
-
-        <input
-          id="password"
-          type="password"
-          formControlName="password"
-          placeholder="Enter your password"
-        />
-
-        <small
-          class="error"
-          *ngIf="
-            loginForm.get('password')?.touched &&
-            loginForm.get('password')?.invalid
-          "
-        >
-          Password must contain at least 6 characters.
-        </small>
-
-      </div>
-
-
-      <!-- Backend Error -->
-      @if (errorMessage) {
-  <div class="server-error">
-    {{ errorMessage }}
+    <div class="layer grid-floor" style="--d: -10"></div>
+    <div class="layer fog fog-a" style="--d: -12"></div>
+    <canvas #fx class="layer fx"></canvas>
+    <div class="layer fog fog-b" style="--d: -16"></div>
   </div>
-}
 
-      <!-- Login Button -->
-      <button
-        type="submit"
-        [disabled]="loading"
-      >
-@if (!loading) {
-  <span>Login</span>
-}
+  <!-- ============ FOREGROUND ============ -->
+  <div class="stage">
 
-@if (loading) {
-  <span>Logging in...</span>
-}
+    <div class="brand" aria-hidden="true">
+      <span class="brand-mark"></span>
+      <span>Voice AI Agent</span>
+    </div>
+
+    <!-- Glass login panel (left) -->
+    <section class="panel-stage" style="--d: -22">
+      <div class="panel-float">
+        <div class="panel">
+
+          <p class="eyebrow">WELCOME BACK</p>
+          <h1>Enter the<br />AI World</h1>
+
+          <form [formGroup]="loginForm" (ngSubmit)="login()" novalidate>
+
+            <div class="field">
+              <label for="email">Email</label>
+              <div class="control">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6.5A1.5 1.5 0 0 1 4.5 5h15A1.5 1.5 0 0 1 21 6.5v11a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 17.5v-11Zm1.6.6L12 12.4l7.4-5.3"/></svg>
+                <input
+                  id="email"
+                  type="email"
+                  formControlName="email"
+                  placeholder="you@company.com"
+                  autocomplete="email"
+                />
+              </div>
+              @if (loginForm.get('email')?.touched && loginForm.get('email')?.invalid) {
+                <small class="error">Please enter a valid email.</small>
+              }
+            </div>
+
+            <div class="field">
+              <label for="password">Password</label>
+              <div class="control">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 10.5V8a5.5 5.5 0 0 1 11 0v2.5M5 10.5h14a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-8.5a1 1 0 0 1 1-1Zm7 4v2.5"/></svg>
+                <input
+                  id="password"
+                  [type]="showPassword() ? 'text' : 'password'"
+                  formControlName="password"
+                  placeholder="Enter your password"
+                  autocomplete="current-password"
+                />
+                <button
+                  type="button"
+                  class="reveal"
+                  (click)="togglePassword()"
+                  [attr.aria-label]="showPassword() ? 'Hide password' : 'Show password'"
+                  [attr.aria-pressed]="showPassword()"
+                >
+                  {{ showPassword() ? 'Hide' : 'Show' }}
+                </button>
+              </div>
+              @if (loginForm.get('password')?.touched && loginForm.get('password')?.invalid) {
+                <small class="error">Password must contain at least 6 characters.</small>
+              }
+            </div>
+
+            <div class="row">
+              <label class="check">
+                <input type="checkbox" formControlName="remember" />
+                <span class="box" aria-hidden="true"></span>
+                <span>Remember me</span>
+              </label>
+              <a class="link" routerLink="/forgot-password">Forgot Password?</a>
+            </div>
+
+            @if (errorMessage()) {
+              <div class="server-error" role="alert">{{ errorMessage() }}</div>
+            }
+
+            <button class="login-btn" type="submit" [disabled]="loading()">
+              <span class="label">
+                @if (!loading()) { LOGIN } @else { LOGGING IN… }
+              </span>
+            </button>
+          </form>
+
+          <div class="divider"><span>or continue with</span></div>
+
+          <div class="social">
+            <button type="button">Google</button>
+            <button type="button">GitHub</button>
+            <button type="button">Microsoft</button>
+          </div>
+
+          <p class="signup">
+            New here? <a class="link" routerLink="/register">Create Account</a>
+          </p>
+
+          <p class="foot">AI Voice Agent Customer Service</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Holographic AI companion (right) -->
+    <section class="character-stage" style="--d: -12">
+      <div class="aura" aria-hidden="true"></div>
+
+      <div class="hologram" [class.speaking]="speaking()">
+        <svg class="ai-svg" viewBox="-70 0 550 760" role="img" aria-label="Holographic AI assistant">
+          <defs>
+            <linearGradient id="lg-skin" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#fbeef6"/>
+              <stop offset="0.6" stop-color="#ecd6ea"/>
+              <stop offset="1" stop-color="#cdb4e2"/>
+            </linearGradient>
+            <linearGradient id="lg-skin-dark" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#b79cd4"/>
+              <stop offset="1" stop-color="#8f78bd"/>
+            </linearGradient>
+            <linearGradient id="lg-hair" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#2a1868"/>
+              <stop offset="0.55" stop-color="#4a2aa8"/>
+              <stop offset="1" stop-color="#1fb8e0"/>
+            </linearGradient>
+            <linearGradient id="lg-hair-front" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#5a34c8"/>
+              <stop offset="1" stop-color="#2a1868"/>
+            </linearGradient>
+            <linearGradient id="lg-suit" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#16265a"/>
+              <stop offset="1" stop-color="#070d26"/>
+            </linearGradient>
+            <radialGradient id="lg-iris" cx="0.5" cy="0.4" r="0.6">
+              <stop offset="0" stop-color="#c8fbff"/>
+              <stop offset="0.45" stop-color="#37d8ff"/>
+              <stop offset="1" stop-color="#5a34e0"/>
+            </radialGradient>
+            <radialGradient id="lg-core" cx="0.5" cy="0.5" r="0.5">
+              <stop offset="0" stop-color="#ffffff"/>
+              <stop offset="0.4" stop-color="#8ff3ff"/>
+              <stop offset="1" stop-color="#8ff3ff" stop-opacity="0"/>
+            </radialGradient>
+            <filter id="lg-glow" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="3" result="b"/>
+              <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+
+          <!-- projector rings -->
+          <g class="rings" fill="none" stroke="#3de8ff">
+            <circle cx="210" cy="280" r="200" stroke-opacity=".22" stroke-dasharray="2 10"/>
+            <circle cx="210" cy="280" r="235" stroke-opacity=".14" stroke-dasharray="40 18 4 18"/>
+          </g>
+
+          <!-- back hair -->
+          <g class="hair-back">
+            <path fill="url(#lg-hair)" d="M132 150 C 88 232, 78 362, 108 470 C 118 520, 98 562, 86 606 C 138 572, 170 522, 176 440 L 244 440 C 250 522, 282 572, 334 606 C 322 562, 302 520, 312 470 C 342 362, 332 232, 288 150 Z"/>
+            <path d="M120 250 C 108 330, 112 400, 126 470 M300 250 C 312 330, 308 400, 294 470" stroke="#7de9ff" stroke-opacity=".55" stroke-width="1.4" fill="none"/>
+          </g>
+
+          <g class="ch-body">
+            <!-- upper arm + forearm (reaching toward the login panel) -->
+            <g class="arm">
+              <path d="M108 440 C 70 480, 40 540, 30 600" stroke="url(#lg-suit)" stroke-width="32" stroke-linecap="round" fill="none"/>
+              <path d="M108 440 C 70 480, 40 540, 30 600" stroke="#3de8ff" stroke-opacity=".5" stroke-width="1.2" stroke-linecap="round" fill="none" transform="translate(-14 0)"/>
+              <path d="M30 600 C 20 570, 0 545, -8 515" stroke="url(#lg-suit)" stroke-width="26" stroke-linecap="round" fill="none"/>
+              <g class="hand">
+                <ellipse cx="-8" cy="497" rx="15" ry="17" fill="url(#lg-skin)"/>
+                <g stroke="url(#lg-skin)" stroke-width="7" stroke-linecap="round" fill="none">
+                  <path d="M-18 486 L-24 458"/>
+                  <path d="M-11 482 L-14 451"/>
+                  <path d="M-3 483 L-3 454"/>
+                  <path d="M5 488 L9 463"/>
+                  <path d="M-21 500 L-37 488"/>
+                </g>
+                <g class="card" filter="url(#lg-glow)">
+                  <rect x="-50" y="398" width="84" height="46" rx="9" fill="rgba(10,30,70,.55)" stroke="#3de8ff" stroke-width="1.2"/>
+                  <circle cx="-30" cy="421" r="7" fill="none" stroke="#8ff3ff" stroke-width="1.4"/>
+                  <path d="M-20 414 H24 M-20 421 H12 M-20 428 H18" stroke="#8ff3ff" stroke-opacity=".7" stroke-width="1.2" stroke-linecap="round"/>
+                </g>
+              </g>
+            </g>
+
+            <!-- torso -->
+            <path fill="url(#lg-suit)" d="M95 760 L100 470 C 105 400, 150 372, 178 362 L 242 362 C 270 372, 315 400, 320 470 L 325 760 Z"/>
+            <g fill="none" stroke="#3de8ff" stroke-linecap="round" filter="url(#lg-glow)">
+              <path d="M100 470 C 105 400, 150 372, 178 362" stroke-opacity=".9" stroke-width="1.6"/>
+              <path d="M320 470 C 315 400, 270 372, 242 362" stroke-opacity=".9" stroke-width="1.6"/>
+              <path d="M150 530 L195 505 L195 640" stroke-opacity=".55" stroke-width="1.2"/>
+              <path d="M270 530 L225 505 L225 640" stroke-opacity=".55" stroke-width="1.2"/>
+              <path d="M178 362 C 195 402, 225 402, 242 362" stroke="#ff3fb4" stroke-opacity=".8" stroke-width="1.6"/>
+            </g>
+            <circle cx="210" cy="520" r="26" fill="url(#lg-core)" opacity=".85"/>
+            <circle class="core" cx="210" cy="520" r="15" fill="none" stroke="#8ff3ff" stroke-width="1.2" stroke-dasharray="6 5"/>
+            <circle cx="210" cy="520" r="5" fill="#fff"/>
+
+            <!-- neck -->
+            <path fill="url(#lg-skin-dark)" d="M190 296 L190 368 C 200 388, 220 388, 230 368 L230 296 Z"/>
+
+            <!-- head -->
+            <g class="ch-head">
+              <!-- halo hairpiece -->
+              <path d="M158 122 C 190 88, 230 88, 262 122" stroke="#3de8ff" stroke-width="2" fill="none" stroke-linecap="round" filter="url(#lg-glow)"/>
+
+              <!-- face -->
+              <path fill="url(#lg-skin)" d="M150 205 C 150 150, 180 125, 210 125 C 240 125, 270 150, 270 205 C 270 255, 250 300, 210 318 C 170 300, 150 255, 150 205 Z"/>
+              <path fill="#a98bd0" fill-opacity=".22" d="M150 235 C 154 268, 176 300, 210 318 C 186 292, 170 268, 164 240 Z"/>
+              <ellipse cx="172" cy="252" rx="13" ry="7" fill="#ff5fb0" fill-opacity=".22"/>
+              <ellipse cx="248" cy="252" rx="13" ry="7" fill="#ff5fb0" fill-opacity=".22"/>
+
+              <!-- brows -->
+              <g fill="none" stroke="#2a1656" stroke-width="2.4" stroke-linecap="round">
+                <path d="M162 193 C 172 186, 190 186, 200 191"/>
+                <path d="M220 191 C 230 186, 248 186, 258 193"/>
+              </g>
+
+              <!-- eyes -->
+              <g class="eye eye-l">
+                <ellipse cx="182" cy="221" rx="21" ry="13.5" fill="#f5f8ff"/>
+                <g class="iris">
+                  <circle cx="182" cy="221" r="11.5" fill="url(#lg-iris)"/>
+                  <circle cx="182" cy="221" r="4.8" fill="#0a0620"/>
+                  <circle cx="178.5" cy="216.5" r="3.2" fill="#fff"/>
+                  <circle cx="186" cy="225" r="1.5" fill="#fff" fill-opacity=".8"/>
+                </g>
+                <path d="M158 219 C 166 202, 198 202, 206 219" stroke="#1b0f3d" stroke-width="3.4" stroke-linecap="round" fill="none"/>
+                <path d="M158 219 q-5 -1 -8 -6" stroke="#1b0f3d" stroke-width="2.4" stroke-linecap="round" fill="none"/>
+                <path d="M165 229 C 174 236, 192 236, 199 229" stroke="#3b1f78" stroke-opacity=".35" stroke-width="1.2" fill="none"/>
+              </g>
+              <g class="eye eye-r">
+                <ellipse cx="238" cy="221" rx="21" ry="13.5" fill="#f5f8ff"/>
+                <g class="iris">
+                  <circle cx="238" cy="221" r="11.5" fill="url(#lg-iris)"/>
+                  <circle cx="238" cy="221" r="4.8" fill="#0a0620"/>
+                  <circle cx="234.5" cy="216.5" r="3.2" fill="#fff"/>
+                  <circle cx="242" cy="225" r="1.5" fill="#fff" fill-opacity=".8"/>
+                </g>
+                <path d="M214 219 C 222 202, 254 202, 262 219" stroke="#1b0f3d" stroke-width="3.4" stroke-linecap="round" fill="none"/>
+                <path d="M262 219 q5 -1 8 -6" stroke="#1b0f3d" stroke-width="2.4" stroke-linecap="round" fill="none"/>
+                <path d="M221 229 C 228 236, 246 236, 255 229" stroke="#3b1f78" stroke-opacity=".35" stroke-width="1.2" fill="none"/>
+              </g>
+
+              <!-- nose -->
+              <path d="M210 246 q-3.5 8 1.5 10" stroke="#9a7cc0" stroke-opacity=".7" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+
+              <!-- mouth -->
+              <g class="mouth">
+                <ellipse class="mouth-open" cx="210" cy="282" rx="8.5" ry="5.5" fill="#3a0f2e"/>
+                <ellipse class="tongue" cx="210" cy="285" rx="4.5" ry="2" fill="#e0648f" fill-opacity=".9"/>
+                <path d="M197 281 Q 203 278.5 210 280.5 Q 217 278.5 223 281" stroke="#c2467c" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+                <path class="lip-low" d="M200 284.5 Q 210 291 220 284.5" stroke="#e07aa6" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+              </g>
+
+              <!-- ear tech -->
+              <g filter="url(#lg-glow)" fill="rgba(10,30,70,.7)" stroke="#3de8ff" stroke-width="1.4">
+                <rect x="140" y="212" width="11" height="26" rx="5.5"/>
+                <rect x="269" y="212" width="11" height="26" rx="5.5"/>
+              </g>
+
+              <!-- side strands -->
+              <path class="strand strand-l" fill="url(#lg-hair)" d="M152 196 C 138 260, 140 330, 124 404 C 152 362, 160 300, 164 236 Z"/>
+              <path class="strand strand-r" fill="url(#lg-hair)" d="M268 196 C 282 260, 280 330, 296 404 C 268 362, 260 300, 256 236 Z"/>
+
+              <!-- bangs -->
+              <path class="bangs" fill="url(#lg-hair-front)" d="M144 214 C 136 138, 178 98, 216 98 C 258 98, 288 142, 276 216 C 270 186, 256 162, 236 152 C 232 178, 206 188, 190 160 C 180 184, 164 200, 144 214 Z"/>
+              <path d="M170 128 C 190 108, 226 106, 250 122" stroke="#9af0ff" stroke-opacity=".6" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+            </g>
+          </g>
+
+          <!-- base glow -->
+          <ellipse cx="210" cy="756" rx="170" ry="10" fill="#3de8ff" fill-opacity=".25"/>
+        </svg>
+      </div>
+
+      <p class="caption" [class.on]="speaking()" aria-hidden="true">Please log in to continue.</p>
+
+      <button type="button" class="replay" (click)="replay()" aria-label="Replay voice greeting">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5v5h3.5L12 18.5v-13L7.5 9.5H4Zm12 .5a3.5 3.5 0 0 1 0 4m2.5-6.5a7 7 0 0 1 0 9"/></svg>
       </button>
-
-    </form>
-
-
-    <div class="login-footer">
-
-      <p>
-        AI Voice Agent Customer Service
-      </p>
-
-    </div>
+    </section>
 
   </div>
 
-</div>
+  <div class="vignette" aria-hidden="true"></div>
+</main>

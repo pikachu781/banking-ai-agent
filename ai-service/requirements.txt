@@ -3,6 +3,7 @@
 venv\Scripts\activate
 uvicorn app.main:app --reload --port 8000
 
+pip install elevenlabs python-dotenv
 
 ollama pull nomic-embed-text
 
